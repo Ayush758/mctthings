@@ -1,0 +1,56 @@
+1 to 10 port of switch - static h
+1st port we have configured 192.169.100.2
+
+11 to 20 - DHCP enabled
+
+---------------
+task we have done 
+1 installed ubuntu on firewall whose ip is - 192.168.200.116 ( 122.160.42.185 ip he)
+
+2 installed pfsense on firewall whose ip is - 
+---------------------------------------
+
+(7-10-24)
+1 
+a configured static ip on firewall -  192.169.100.2 through /etc/netplan/config.yaml
+192.169.100.2
+
+	
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp1s0:
+      dhcp4: false
+      addresses:
+        - 192.168.100.2/24
+      gateway4: 192.168.100.1
+      nameservers:
+        addresses:
+          - 8.8.8.8
+          - 4.2.2.2
+
+    enp2s0:
+      dhcp4: true
+    enp3s0:
+      dhcp4: true
+    enp4s0:
+      dhcp4: true
+    enp5s0:
+      dhcp4: true
+    enp6s0:
+      dhcp4: true
+    enp7s0:
+      dhcp4: true
+    enp8s0:
+      dhcp4: true
+        # version: 2
+
+sudo reboot 
+b restart netplan 
+netplan test
+netplan apply 
+---------------------------
+2 given permission for ssh to root through vi /etc/ssh/sshd_config.yaml
+ssh root@192.168.100.2
+-----------------------------

@@ -1,0 +1,104 @@
+[Unit]
+Description=OpenNMS Network Management
+After=network.target
+[Service]
+Type=forking
+User=opennms or root 
+Group=opennms or root 
+ExecStart=/usr/share/.mctnms/target/opennms-32.0.2/bin/opennms -vt start
+ExecStop=/usr/share/.mctnms/target/opennms-32.0.2/bin/opennms -vt stop
+Restart=on-failure
+TimeoutSec=300
+[Install]
+WantedBy=multi-user.target
+6:40
+-----------
+6:40
+sudo nano /etc/systemd/system/opennms.service
+6:41
+sudo systemctl daemon-reload
+6:41
+sudo systemctl enable opennms.service
+6:41
+sudo systemctl start opennms.service
+
+
+
+
+
+6:41
+sudo systemctl status opennms.service
+
+---------------------------------
+--------------------------------
+
+
+
+lms ke liye 
+
+[Unit]
+Description=LMS Java Application
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/java -jar /root/Lms-0.0.1-SNAPSHOT.jar
+Restart=always
+Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64  # Set the correct JAVA_HOME if needed
+Environment=PATH=$JAVA_HOME/bin:$PATH
+StandardOutput=journal
+StandardError=inherit
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl enable lms.service
+sudo systemctl status lms.service
+sudo systemctl start lms.service
+
+------------------------------
+
+[Unit]
+Description=NMS Java Application
+After=network.target
+
+[Service]
+User=root
+Group=root
+WorkingDirectory=/root
+ExecStart=/usr/bin/java -jar /root/nms-0.0.1-SNAPSHOT.jar
+Restart=always
+Environment=JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64  # Set the correct JAVA_HOME if needed
+Environment=PATH=$JAVA_HOME/bin:$PATH
+StandardOutput=journal
+StandardError=inherit
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+===================
+
+
+
+for 196 ip for smrut i have created this its working fine 
+cat opennms.service
+[Unit]
+Description=OpenNMS Network Management
+After=network.target
+
+[Service]
+Type=forking
+User=root
+Group=root
+ExecStart=/root/opennms/target/opennms-32.0.2/bin/opennms -vt start
+ExecStop=/root/opennms/target/opennms-32.0.2/bin/opennms -vt stop
+Restart=on-failure
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
+

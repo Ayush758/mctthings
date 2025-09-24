@@ -1,0 +1,274 @@
+SDWAN Installation
+1.	Install Dependencies
+	apt update
+	apt install wget curl git
+	curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+	source ~/.profile
+	nvm -v
+	nvm list
+	nvm install v16.20.1
+	nvm list
+	node -v 
+sudo apt install python3-pip
+	python -m pip install --user python==3.6.9
+
+2.	Install Redis
+	sudo apt update
+	sudo apt install build-essential -y
+	wget http://download.redis.io/releases/redis-5.0.5.tar.gz
+	tar xzf redis-5.0.5.tar.gz
+tar -xzvf redis-6.0.10.tar.gz
+	cd redis-5.0.5
+
+apt install cmake
+make distclean
+	make
+	sudo make install 
+	sudo mkdir /etc/redis 
+	sudo cp redis.conf /etc/redis/6379.conf 
+	sudo nano /etc/redis/6379.conf
+
+Find the line that starts with bind and change it to: 
+bind 127.0.0.1 
+Find the line that starts with port and change it to: 
+port 6379
+If alredy exist leave as it is.
+Save and exit the editor.
+
+
+Create a systemd service file for Redis:
+
+	sudo nano /etc/systemd/system/redis_6379.service
+
+[Unit] 
+Description=Redis Server 
+After=network.target 
+
+[Service] 
+ExecStart=/usr/local/bin/redis-server /etc/redis/6379.conf ExecStop=/usr/local/bin/redis-cli shutdown Restart=always
+
+ [Install] 
+WantedBy=multi-user.target
+
+Save and exit the editor. 
+
+
+	sudo systemctl start redis_6379
+	sudo systemctl enable redis_6379
+	redis-cli -v
+	apt-get install libcurl4 libgssapi-krb5-2 libkrb5-dbg libldap-dev libpci3 libwrap0 libsasl2-2 libsasl2-modules libsasl2-modulaptes-gssapi-mit libsensors-dev snmp openssl -y
+
+
+
+
+
+
+3.	MongoDB Installation
+
+	#wget https://downloads.mongodb.com/linux/mongodb-linux-x86_64-enterprise-ubuntu1804-4.0.9.tgz
+	#apt install mongodb
+	#tar -zxvf mongodb-linux-x86_64-enterprise-ubuntu1804-4.0.9.tgz
+	#cd mongodb-linux-x86_64-enterprise-ubuntu1804-4.0.9/
+
+	#cd bin/
+	#cp * /usr/local/bin/
+install mongo 6version from official doc for ubuntu 22 
+
+	mkdir /data
+	mkdir /data/db27017
+	mkdir /data/db27018
+	mkdir /data/db27019
+	sudo chown -R root:root /data/db27017 
+	sudo chown -R root:root /data/db27018
+        sudo chown -R root:root /data/db27019 
+	sudo chmod -R u+rwx /data/db27017 
+	sudo chmod -R u+rwx /data/db27018
+	sudo chmod -R u+rwx /data/db27019
+	Mongo Service file and Config file Steps
+	sudo nano /etc/systemd/system/mongod27017.service
+
+ [Unit] 
+Description=MongoDB Database Server 27017 
+After=network.target 
+
+[Service] 
+ExecStart=/usr/local/bin/mongod --config /etc/mongod27017.conf 
+Restart=always
+User=root 
+Group=root 
+
+[Install] 
+WantedBy=multi-user.target
+
+Close and save file.
+
+	sudo nano /etc/systemd/system/mongod27018.service
+
+[Unit] 
+Description=MongoDB Database Server 27018 
+After=network.target 
+
+[Service] 
+ExecStart=/usr/local/bin/mongod --config /etc/mongod27018.conf 
+Restart=always 
+User=root
+Group=root 
+
+[Install] 
+WantedBy=multi-user.target
+
+Close and save file.
+
+
+	sudo nano /etc/systemd/system/mongod27019.service
+
+[Unit] 
+Description=MongoDB Database Server 27018 
+After=network.target 
+
+[Service] 
+ExecStart=/usr/local/bin/mongod --config /etc/mongod27018.conf 
+Restart=always 
+User=root 
+Group=root
+
+[Install] 
+WantedBy=multi-user.target
+
+
+Close and save file
+Creating Configuration file
+
+	sudo nano /etc/mongod27017.conf
+
+# /etc/mongod27017.conf 
+# network interfaces 
+net: 
+  port: 27017 
+  bindIp: 0.0.0.0 
+# replication options 
+replication: 
+    replSetName: rs 
+# storage 
+storage: 
+   dbPath: /data/db27017 
+    journal: 
+        enabled: true
+
+Save file and exit
+
+	sudo nano /etc/mongod27018.conf
+
+# /etc/mongod27018.conf 
+# network interfaces 
+net: 
+  port: 27018
+  bindIp: 0.0.0.0 
+# replication options 
+replication: 
+    replSetName: rs 
+# storage 
+storage: 
+   dbPath: /data/db27018 
+    journal: 
+        enabled: true
+
+Save file and exit
+
+
+
+	sudo nano /etc/mongod27019.conf
+
+# /etc/mongod27019.conf 
+# network interfaces 
+net: 
+  port: 27019
+  bindIp: 0.0.0.0 
+# replication options 
+replication: 
+    replSetName: rs 
+# storage 
+storage: 
+   dbPath: /data/db27019
+    journal: 
+        enabled: true
+
+Save file and Exit
+
+
+	sudo systemctl daemon-reload 
+	sudo systemctl enable mongod27017 
+	sudo systemctl enable mongod27018 
+	sudo systemctl enable mongod27019 
+	sudo systemctl start mongod27017 
+	sudo systemctl start mongod27018 
+	sudo systemctl start mongod27019 
+	sudo systemctl restart mongod27017 
+	sudo systemctl restart mongod27018 
+	sudo systemctl restart mongod27019 
+	sudo systemctl status mongod27017 
+	sudo systemctl status mongod27018 
+	sudo systemctl status mongod27019
+
+ which mongod
+for me - /usr/bin/mongod
+put this path on 
+each of the service 
+sudo cat /etc/systemd/system/mongod27017.service
+sudo cat /etc/systemd/system/mongod27018.service
+sudo cat /etc/systemd/system/mongod27019.service
+
+sudo systemctl enable mongod27017 
+sudo systemctl enable mongod27018 
+sudo systemctl enable mongod27019 
+sudo systemctl start mongod27017 
+sudo systemctl start mongod27018 
+sudo systemctl start mongod27019 
+sudo systemctl restart mongod27017 
+sudo systemctl restart mongod27018 
+sudo systemctl restart mongod27019 
+sudo systemctl status mongod27017 
+sudo systemctl status mongod27018 
+sudo systemctl status mongod27019
+
+now all the services will on active mode if only the indentation is proper.
+ 
+now do 
+1 monogosh localhost:27017
+2 rs.initiate({
+  _id: "rs",
+  members: [
+    { _id: 0, host: "localhost:27017" },
+    { _id: 1, host: "localhost:27018" },
+    { _id: 2, host: "localhost:27019" }
+  ]
+});
+
+3  to verify cluster verification - rs.status()
+
+
+
+
+
+	mongosh
+	use mainDB 
+	use analyticsDB 
+	use vpnDB
+
+
+4.	Install Fleximanage
+
+	mkdir flexiManage
+	cd flexiManage
+	git clone https://gitlab.com/flexiwangroup/fleximanage.git .
+	cd backend
+	npm install -g yarn
+	yarn
+	yarn start
+
+Note : After yarn start if you get error then go to mongodb database and then run below command 2 times to make cluster of all 3 instances.
+
+	rs.initiate()
+	cd /opt/sdwan-backend/backend
+	nohup yarn start & > yarnstart.txt
+	

@@ -1,0 +1,92 @@
+ cat default
+server {
+    listen 3000 default_server;
+    listen [::]:3000 default_server;
+
+    # SSL configuration (optional, for HTTPS)
+    # listen 443 ssl default_server;
+    # listen [::]:443 ssl default_server;
+    #
+    # SSL certificates (self-signed or real certificates)
+    # include snippets/snakeoil.conf;
+
+    server_name 192.168.100.149;  # Replace with your IP or domain
+
+    # Add index.html to the list if using React build files
+    index index.html index.htm index.nginx-debian.html;
+
+    # The root directory for serving the app
+    root /var/www/html/admin;
+
+    # Serve React App for /admin path
+    location /var/www/html/admin{
+        alias /var/www/html/admin;  # Serve files from /var/www/html/admin
+        index index.html;            # Make sure index.html is the entry point
+        try_files $uri /admin/index.html;  # Fallback to /admin/index.html for React Router
+    }
+
+
+    # Default location (404 for any non-existent path)
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Error pages (optional)
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+
+    # Error handling for 50x errors
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
+
+
+server {
+    listen 3001 default_server;
+    listen [::]:3001 default_server;
+
+    # SSL configuration (optional, for HTTPS)
+    # listen 443 ssl default_server;
+    # listen [::]:443 ssl default_server;
+    #
+    # SSL certificates (self-signed or real certificates)
+    # include snippets/snakeoil.conf;
+
+    server_name 192.168.100.149;  # Replace with your IP or domain
+
+    # Add index.html to the list if using React build files
+    index index.html index.htm index.nginx-debian.html;
+
+    # The root directory for serving the app
+    root /var/www/html/user;
+
+    # Serve React App for /user path (if applicable)
+    location /var/www/html/user{
+        alias /var/www/html/user;  # Serve files from /var/www/html/user
+        index index.html;           # Make sure index.html is the entry point
+        try_files $uri /user/index.html;  # Fallback to /user/index.html for React Router
+    }
+
+    # Default location (404 for any non-existent path)
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    # Error pages (optional)
+    error_page 404 /404.html;
+    location = /404.html {
+        root /usr/share/nginx/html;
+    }
+
+    # Error handling for 50x errors
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+        root /usr/share/nginx/html;
+    }
+}
+
+

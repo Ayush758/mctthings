@@ -1,0 +1,42 @@
+Top 20 Basic psql Commands
+===========================
+
+🔧 Connection & Session
+-----------------------
+1. psql -U username -d dbname       # Connect to a specific database
+2. \c dbname                        # Connect to another database
+3. \q                               # Quit the psql session
+4. \conninfo                        # Show current connection info
+
+📊 Database Management
+----------------------
+5. \l or \list                      # List all databases
+6. CREATE DATABASE dbname;         # Create a new database
+7. DROP DATABASE dbname;           # Delete a database
+
+📁 Schema and Table Info
+-------------------------
+8. \dt                              # List all tables
+9. \d tablename                     # Describe table structure
+10. \dn                             # List schemas
+11. \df                             # List functions
+12. \dv                             # List views
+
+🧑‍💼 Users and Roles
+---------------------
+13. \du                             # List users and roles
+14. CREATE USER username WITH PASSWORD 'password';   # Create a user
+15. GRANT ALL PRIVILEGES ON DATABASE db TO username; # Grant access
+
+📄 Data Querying and Execution
+------------------------------
+16. SELECT * FROM tablename;       # Query table data
+17. \x                              # Toggle expanded output
+18. \i filename.sql                 # Run SQL from a file
+19. \e                              # Open external editor for SQL
+
+🔍 Misc Utilities
+-----------------
+20. \?                              # Help for psql commands
+21. \h                              # Help for SQL syntax (e.g., \h SELECT)
+

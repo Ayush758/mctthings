@@ -1,0 +1,3 @@
+scp from AWS to window local with pem file 
+run in cmd 
+scp -i ayu-mct.pem -r ubuntu@13.201.58.83:/home/ubuntu/docker-compose.yml .
