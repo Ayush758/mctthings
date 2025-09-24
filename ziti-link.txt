@@ -1,0 +1,40 @@
+Ziti URL: https://zerotrust.devray.in:1280/zac
+Username: admin
+Password: MCTadmin@12#$
+
+--------------
+
+ziti configured
+
+1 not working
+aamir
+niketa
+jay
+Tanisha
+Raj
+aayush
+
+-----------------
+
+2 working
+prijval
+nirbhay
+naveen
+krishna
+bharat
+nikhil
+gavin
+adarsh
+chhotu
+akash
+Smrut
+sudhanshu
+vishal
+gunja
+
+
+---------------------
+3 remaining
+
+kartikey
+yogendra sir (edited) 
