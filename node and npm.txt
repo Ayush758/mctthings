@@ -1,0 +1,7 @@
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+
+install node and npm 
+
+
+#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

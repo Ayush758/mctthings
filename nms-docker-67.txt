@@ -1,0 +1,35 @@
+services:
+    mctnms-web:
+        image: mctnms:v1.0.2
+        container_name: mctnms_web
+        restart: always
+        ports:
+            - "80:8980"
+        volumes:
+            - ./mctnms_logs/_logs:/opennms/target/opennms-32.0.2/logs
+            - ./mctnms_logs/_share:/opennms/target/opennms-32.0.2/share
+        networks:
+            - mctnms-net
+        depends_on:
+            - mctnms-db
+
+    mctnms-db:
+        image: mctnms-db:v1.0.0
+        container_name: mctnms_db
+        restart: always
+        environment:
+            - POSTGRES_HOST="mctnms-db"
+            - POSTGRES_HOST_AUTH_METHOD=trust
+        ports:
+            - "5432:5432"
+        volumes:
+            - mctnms_db_data:/var/lib/postgresql/data
+        networks:
+            - mctnms-net
+
+networks:
+    mctnms-net:
+        driver: bridge
+
+volumes:
+    mctnms_db_data: {}

@@ -1,0 +1,89 @@
+---
+- name: Install and Configure Chrony, PostgreSQL, and OpenNMS
+  hosts: your_target_servers
+  become: true
+  tasks:
+    - name: Set timezone to Asia/Kolkata
+      command: timedatectl set-timezone Asia/Kolkata
+    - name: Install Chrony
+      apt:
+        name: chrony
+        state: present
+    - name: Display Chrony sources
+      command: chronyc sources
+    - name: Reboot the system
+      command: reboot
+      async: 0
+      poll: 0
+      ignore_errors: true
+    - name: Wait for system to reboot
+      wait_for_connection:
+        delay: 60
+        timeout: 300
+    - name: Install PostgreSQL
+      apt:
+        name: postgresql
+        state: present
+    - name: Create opennms user in PostgreSQL
+      become_user: postgres
+      command: createuser -P opennms
+    - name: Create opennms database and set ownership
+      become_user: postgres
+      command: createdb -O opennms opennms
+    - name: Set password for PostgreSQL superuser
+      become_user: postgres
+      command: psql -c "ALTER USER postgres WITH PASSWORD 'admin';"
+    - name: Add OpenNMS repository
+      blockinfile:
+        path: /etc/apt/sources.list.d/opennms.list
+        block: |
+          deb https://debian.opennms.org opennms-32 main
+          deb-src https://debian.opennms.org opennms-32 main
+    - name: Add GPG keys
+      command: wget -O - https://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add -
+    - name: Update repositories
+      apt:
+        update_cache: yes
+    - name: Install OpenNMS
+      apt:
+        name: opennms
+        state: present
+    - name: Install R for forecasting data in OpenNMS
+      apt:
+        name: r-recommended
+        state: present
+    - name: Configure OpenNMS datasources
+      lineinfile:
+        path: /usr/share/opennms/etc/opennms-datasources.xml
+        line: |
+          <jdbc-data-source name="opennms"
+                             database-name="opennms"
+                             class-name="org.postgresql.Driver"
+                             url="jdbc:postgresql://localhost:5432/opennms"
+                             user-name="opennms"
+                             password="admin" />
+          <jdbc-data-source name="opennms-admin"
+                             database-name="template1"
+                             class-name="org.postgresql.Driver"
+                             url="jdbc:postgresql://localhost:5432/template1"
+                             user-name="postgres"
+                             password="admin" />
+    - name: Detect Java environment and persist in /usr/share/opennms/etc/java.conf
+      command: /usr/share/opennms/bin/runjava -s
+    - name: Initialize the database and detect system libraries
+      command: /usr/share/opennms/bin/install -dis
+    - name: Hold packages for no further updates
+      apt_mark:
+        name: "{{ item }}"
+        state: held
+      loop:
+        - libopennms-java
+        - libopennmsdeps-java
+        - opennms-common
+        - opennms-db
+    - name: Reload Daemon, Enable and restart OpenNMS
+      systemd:
+        name: opennms
+        daemon_reload: yes
+        enabled: yes
+        state: restarted

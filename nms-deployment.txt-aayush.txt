@@ -1,0 +1,71 @@
+# Set Timezone
+sudo timedatectl set-timezone Asia/Kolkata
+
+# Install Chrony
+sudo apt update
+sudo apt install chrony -y
+
+# Display Chrony Sources
+chronyc sources
+
+# Reboot the System
+sudo reboot
+
+# Install PostgreSQL
+sudo apt update
+sudo apt install postgresql -y
+
+# Create OpenNMS User in PostgreSQL
+sudo -u postgres createuser -P opennms
+
+# Create OpenNMS Database and Set Ownership
+sudo -u postgres createdb -O opennms opennms
+
+# Set Password for PostgreSQL Superuser
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'admin';"
+
+# Add OpenNMS Repository
+echo "deb https://debian.opennms.org opennms-32 main" | sudo tee /etc/apt/sources.list.d/opennms.list
+echo "deb-src https://debian.opennms.org opennms-32 main" | sudo tee -a /etc/apt/sources.list.d/opennms.list
+
+# Add GPG Keys
+wget -O - https://debian.opennms.org/OPENNMS-GPG-KEY | sudo apt-key add -
+
+# Update Repositories
+sudo apt update
+
+# Install OpenNMS
+sudo apt install opennms -y
+
+# Install R for Forecasting Data in OpenNMS
+sudo apt install r-recommended -y
+
+# Configure OpenNMS Datasources
+sudo bash -c 'cat <<EOF >> /usr/share/opennms/etc/opennms-datasources.xml
+<jdbc-data-source name="opennms"
+                  database-name="opennms"
+                  class-name="org.postgresql.Driver"
+                  url="jdbc:postgresql://localhost:5432/opennms"
+                  user-name="opennms"
+                  password="Admin@123" />
+<jdbc-data-source name="opennms-admin"
+                  database-name="template1"
+                  class-name="org.postgresql.Driver"
+                  url="jdbc:postgresql://localhost:5432/template1"
+                  user-name="postgres"
+                  password="admin" />
+EOF'
+
+# Detect Java Environment
+/usr/share/opennms/bin/runjava -s
+
+# Initialize the Database and Detect System Libraries
+/usr/share/opennms/bin/install -dis
+
+# Hold Packages for No Further Updates
+sudo apt-mark hold libopennms-java libopennmsdeps-java opennms-common opennms-db
+
+# Reload Daemon, Enable and Restart OpenNMS
+sudo systemctl daemon-reload
+sudo systemctl enable opennms
+sudo systemctl restart opennms

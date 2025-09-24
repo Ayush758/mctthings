@@ -1,0 +1,58 @@
+build stage 
+dockerzie 
+deployment 
+
+1 Helpdesk - ITOP  
+2 MCTNMS
+3 SIEM
+4 firewall configure
+5 opendaylight
+6 moodle
+7 Helpdesk - glpi - DRDO 
+8 SDWAN  MANAGER IN AWS 
+9 
+
+---------------
+runner 192.168.100.126
+
+   64  nvm -v
+   65  nvm ls-remote
+   66  nvm install lts
+   67  nvm install  v22.11.0
+   68  node -v
+   69  npm -v
+   70  vim /etc/environment
+   71  clear
+   72  npm -v
+   73  exit
+   74  npm -v
+   75  clear
+   76  npm -v
+   77  node -v
+   78  gitlab-runner --version
+   79  perl --version
+   80  clear
+   81  exit
+   82  ll
+   83  clear
+   84  nvm -v
+   85  nvm ls-remote
+   86  nvm install v12.22.9
+   87  nvm use v12.22.9
+   88  node -v
+   89  npm -v
+   90  clear
+   91  nvm
+   92  nvm alias default v12.22.9
+   93  clear
+   94  exit
+   95  node -v
+   
+
+
+
+
+
+
+
+

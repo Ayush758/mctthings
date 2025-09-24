@@ -1,0 +1,35 @@
+- apt install -y openjdk-11-jdk,
+- apt install git
+- apt install perl
+- Installation of Postgresql in Ubuntu-
+  sudo apt -y install postgresql
+- systemctl enable postgresql
+- systemctl start postgresql
+
+- sudo apt update
+- apt install jicmp jicmp6 jrrd  (Optional)
+#cd /  ##(changing the directory to / for creation of database purposes)
+** Creation of opennms database user and password:
+- sudo -u postgres createuser -P opennms
+** Creation of empty database and setting ownership permission:
+- sudo -u postgres createdb -O opennms opennms
+** Set a password for Postgresql superuser:
+(Note: Please enter your own password in 'admin')
+- sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'admin';"
+
+----------------------------------------------------------------------------------------
+
+sudo -i -u postgres
+
+
+create database mctsm character set utf8 collate utf8_bin;
+create user 'mctsm'@'%' identified by 'Admin@12#$';
+grant all privileges on mctsm.* to 'mctsm'@'%';
+GRANT PROCESS, SELECT, LOCK TABLES ON *.* TO 'mctsm'@'%';
+FLUSH PRIVILEGES;
+quit;
+
+
+------------------
+https://gitlab.devray.in/mct_projects/mct-nms/nms-build/-/tree/master?ref_type=heads 
+master branch

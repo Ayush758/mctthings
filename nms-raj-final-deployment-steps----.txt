@@ -1,0 +1,34 @@
+ apt install -y openjdk-11-jdk,
+- apt install git
+- apt install perl
+- Installation of Postgresql in Ubuntu-
+  sudo apt -y install postgresql
+- systemctl enable postgresql
+- systemctl start postgresql
+- sudo apt update
+- apt install jicmp jicmp6 jrrd  (Optional)
+#cd /  ##(changing the directory to / for creation of database purposes)
+** Creation of mctnms database user and password:
+- sudo -u postgres createuser -P opennms
+** Creation of empty database and setting ownership permission:
+- sudo -u postgres createdb -O opennms opennms
+** Set a password for Postgresql superuser:
+(Note: Please enter your own password in 'Admin@123')
+- sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'Admin@123';"
+------------------------------
+  /usr/share/.mctnms/target/opennms-32.0.2/bin/runjava -s
+/usr/share/.mctnms/target/opennms-32.0.2/bin/install -dis
+/usr/share/.mctnms/target/opennms-32.0.2/etc
+change in  nano opennms-datasources.xml
+data source file .xml me jake db connection localhost me user me mctnms
+--------------------------------------------
+root@rmcnms-Virtual-Machine:~# /usr/share/.mctnms/target/opennms-32.0.2/bin/opennms -vt start
+root@rmcnms-Virtual-Machine:~# /usr/share/.mctnms/target/opennms-32.0.2/bin/opennms stop
+-------------
+code is in = https://gitlab.devray.in/mct_projects/mct-nms/nms-build
+in master branch
+the target folder opennms
+
+chmod 755 -R .mctnms/
+sudo -u postgres psql
+\psql

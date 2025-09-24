@@ -1,0 +1,20 @@
+# Set Timezone
+sudo timedatectl set-timezone Asia/Kolkata
+
+# Install Chrony
+sudo apt update
+sudo apt install chrony -y
+
+  sudo apt update
+   63  sudo apt install chrony -y
+ 
+   66  chronyc sources -v
+   67  sudo chronyc sources -v
+   68  sudo systemctl status chronyd
+   69  sudo systemctl start chronyd
+   70  sudo systemctl status chronyd
+   71  sudo journalctl -u chronyd
+   72  sudo chronyc sources -v
+chronyc sources
+
+http://192.168.100.15:8980/opennms/login.jsp
