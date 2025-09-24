@@ -1,0 +1,1 @@
+cat /usr/lib/systemd/system/wazuh-manager.service

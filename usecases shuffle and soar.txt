@@ -1,0 +1,97 @@
+use cases - 
+
+i have integrated shuffle with the wazuh now i want to make some
+use cases on linux agent using shuffle and wazuh. i have shuffle runnning on 192.168.100.32:3001 throgh 
+docker and eventshield running on 192.168.100.60 
+
+
+Use Case 1: Auto-Isolate Host on High-Severity Alert
+🔍 Trigger:
+Wazuh agent detects a high-severity alert (e.g., malware, privilege escalation, brute force).
+
+🔄 Shuffle Workflow:
+Wazuh sends alert to Shuffle via webhook.
+
+Shuffle parses the alert (e.g., CVSS score > 7 or rule ID match).
+
+Run a command on the Linux agent to isolate the machine:
+
+Disable network interfaces
+
+Block all outgoing traffic via iptables or ufw
+
+Notify SOC via Slack, email, or Teams.
+
+🔧 Tools Involved:
+Wazuh REST API
+
+Shuffle Linux or SSH app
+
+Slack/Email app
+
+
+=====================
+Use Case 2: Unauthorized User Creation Detection
+🔍 Trigger:
+Wazuh detects useradd or /etc/passwd modifications.
+
+🔄 Shuffle Workflow:
+Fetch alert from Wazuh.
+
+Verify user details and creation time.
+
+Cross-check with change management/ticketing tool.
+
+If unauthorized:
+
+Remove the user account
+
+Alert SOC
+
+Run audit commands (last, who, w, etc.)
+
+Generate report
+
+Wazuh: Security detection (detects useradd or passwd changes)
+
+Shuffle (192.168.100.32:3001): SOAR (orchestration and automation)
+
+EventShield (192.168.100.60): Normalizes and forwards events from Wazuh
+
+Your Workflow Goal: Automatically detect unauthorized user creation → Verify → Take action → Report
+
+
+---------------
+https://192.168.100.94/app/login?
+https://192.168.100.32
+
+
+inside 94 server = tail -f /var/ossec/logs/alerts/alerts.log
+
+========================
+
+Use Case 2: Unauthorized User Creation Detection
+🔍 Trigger:
+Wazuh detects useradd or /etc/passwd modifications.
+
+🔄 Shuffle Workflow:
+Fetch alert from Wazuh.
+
+Verify user details and creation time.
+
+Cross-check with change management/ticketing tool.
+
+If unauthorized:
+
+Remove the user account
+
+Alert SOC
+
+Run audit commands (last, who, w, etc.)
+
+Generate report
+
+
+i want to do practical practical  i have shuffle runnning on 192.168.100.32:3001 throgh 
+docker and eventshield running on 192.168.100.60  explain in detail
+

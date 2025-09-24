@@ -1,0 +1,180 @@
+https://docs.vyos.io/en/latest/contributing/build-vyos.html
+
+https://forum.vyos.io/t/building-for-arm64-fails/15720
+
+vyos task given by nirbhay 
+ip 34 and 93 p chlra h through vm
+user and admin
+
+ip 93 jaisa chlna chahiye 34 me 
+
+sudo apt update
+sudo apt install python3-tomli python3-jinja2 python3-requests python3-git
+
+
+insatll make and cmake 
+sudo apt update
+sudo apt install python3-tomli python3-jinja2 python3-git
+sudo apt install -y live-build git debootstrap squashfs-tools python3-pip python3-venv python3-dev liblzma-dev libbz2-dev apt-utils ca-certificates gnupg2 libcurl4-openssl-dev libssl-dev libncurses5-dev
+sudo apt install python3-tomli python3-jinja2 python3-psutil python3-git
+sudo apt install pbuilder devscripts python3-pystache qemu-utils kpartx
+------------------
+
+
+ git clone -b sagitta --single-branch https://github.com/vyos/vyos-build
+  244  cd vyos-build/
+  245  ls
+  246  sudo make clean
+  247  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  248  sudo apt install python3-tomli python3-jinja2 python3-git
+  249  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  250  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  251  sudo apt update
+  252  sudo apt install python3-pip
+  253  sudo pip3 install tomli jinja2 gitpython psutil
+  254  python3 -m pip show tomli jinja2 gitpython psutil
+  255  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  256  sudo apt install python3-tomli python3-jinja2 python3-psutil python3-git
+  257  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  258  cat /etc/os-release
+  259  apt update
+  260  sudo nano /etc/resolv.conf
+  261  sudo nano /etc/apt/sources.list
+  262  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  263  lb build
+  264  sudo apt search firmware-linux
+  265  sudo apt install firmware-linux-free
+  266  sudo apt install firmware-linux-nonfree
+  267  lb build
+  268  sudo apt install linux-image-$(uname -r)
+  269  sudo apt install linux-image-$(uname -r)
+  270  ls /boot/vmlinuz-*
+  271  sudo apt install linux-image-amd64
+  272  dpkg --print-architecture
+  273  ls -l /boot/vmlinuz*
+  274  df -h
+  275  lb build
+  276  cp: cannot stat 'chroot/boot/vmlinuz-*': No such file or directory
+  277  sudo chroot chroot/
+  278  ls
+  279  sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+  280  lb build
+281 if u want to delete your iso - lb clean 
+
+
+ sudo ./build-vyos-image
+ sudo ./build-vyos-image iso
+ sudo ./build-vyos-image iso --architecture amd64 --build-by "j.randomhacker@vyos.io"
+
+------------------------
+my findings- 
+
+1 /root/ayu2/vyos-build/data/live-build-config/includes.binary/isolinux
+replaced the black image for trial testing  .
+
+2 i change in default.toml (changed kernel_flavour) but if i do then build got failed.
+
+3 /root/ayu2/vyos-build/data/live-build-config/bootloaders/grub-pc
+here also splash.png is present 
+
+4 /root/ayu2/vyos-build/build/config/includes.binary
+change inside version.json
+
+5 change inside tools
+- /root/ayush-git/vyos-build-mct-prac/tools/container
+config.boot.default but nothing got changed.
+
+6 commented bottom part of the default.yaml which is all the urls but if i do build got failed.
+
+7 did change in /root/27/vyos-build/data
+ default.toml with release in IT.
+
+8 edited in Makefile and build-vyos-image then also no change - 27 decemeber task 
+
+9 CHANGE IN 
+everywhere i did mct instead of vyos . ----------- no change i created build iso and tested .
+
+10 changes in
+/root/7-1-25/vyos-build/data/live-build-config/includes.chroot/opt/vyatta/etc/grub
+ instead of vyos i changed to mct and trying creating build .
+
+11 if i changed in 
+a- default.toml inside data dir
+vyos_branch = "current" to main the build got failed 
+
+b- i changed to kernel flavor vyos to mct its also not working .
+c- when i commnted the urls the build got failed 
+
+12- changes in script folder inside that i changes in /root/7-1-25/vyos-build/scripts
+
+edited this check-qemu-install and did mct everywhere where needed and tried creating build but build got failed .
+
+
+
+--------------------------------------------------
+--------------------------------------------------
+X11 forwarding request failed on channel 0
+Welcome to VyOS!
+
+   ┌── ┐
+   . VyOS 1.5-rolling-202412160007
+   └ ──┘  current
+
+ * Documentation:  https://docs.vyos.io/en/latest
+ * Project news:   https://blog.vyos.io
+ * Bug reports:    https://vyos.dev
+
+You can change this banner using "set system login banner post-login" command.
+
+VyOS is a free software distribution that includes multiple components,
+you can check individual component licenses under /usr/share/doc/*/copyright
+
+---
+WARNING: This VyOS system is not a stable long-term support version and
+         is not intended for production use.
+
+
+
+----------------------
+17 january date 
+1 changes in scripts - check-qemu wali me 
+2 changes in build-vyos 
+3 changes in default.toml
+4 changes in data/
+
+-----------------------
+27 january25	
+1 check on vyos1x - debian/rules
+2 in all the file inside vyos1x/smoketest/config-tests/
+3 smoketest/configs.no-load/pki-ipsec
+
+
+user vyos
+ host-name vyos
+4 vyos1x/src/op_mode/image_installer.py
+-----------------------
+
+
+keywords i searched
+
+vyos
+mct
+os
+username
+login
+boot
+password
+splash.png
+kernel
+grub
+rolling
+credentials
+firmware
+hostname
+host-password
+os
+Live system
+vyos@vyos
+vyos login
+vyos fail-safe
+

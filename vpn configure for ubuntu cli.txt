@@ -1,0 +1,45 @@
+:white_check_mark: Step-by-Step Guide to Connect to OpenVPN from AWS EC2 Ubuntu
+1. Install OpenVPN
+SSH into your AWS Ubuntu EC2 instance and install OpenVPN:
+bash
+sudo apt update
+sudo apt install openvpn unzip -y
+2. Upload or Extract VPN Files
+Assuming you've already uploaded OpenVPN_Server_vikas (1).zip:
+Unzip the file:
+bash
+unzip OpenVPN_Server_vikas\ \(1\).zip -d ~/vpnconfig
+Check the contents:
+bash
+ls ~/vpnconfig
+Look for a
+.ovpn
+ file (this is the client config file).
+3. Modify the
+.ovpn File (if required)
+If authentication is via username and password, you must do this:
+Create a file vpnlogin.txt:
+bash
+echo -e "vikas\nadmin" > ~/vpnconfig/vpnlogin.txt
+Then edit the
+.ovpn file (e.g., client.ovpn) to include:
+bash
+auth-user-pass vpnlogin.txt
+If it's already there, just ensure it's pointing to the right file.
+4. Connect to the VPN
+Run the VPN client:
+bash
+sudo openvpn --config ~/vpnconfig/client.ovpn
+If everything is set up properly, you should see logs like:
+mathematica
+Initialization Sequence Completed
+5. Verify the VPN Connection
+Open another terminal and run:
+bash
+curl ifconfig.me
+
+
+
+
+
+

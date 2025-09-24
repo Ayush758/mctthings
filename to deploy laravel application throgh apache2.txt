@@ -1,0 +1,51 @@
+to deploy laravel application on ubuntu 22
+
+1 install php 8.2 = 
+sudo apt install php8.2
+sudo apt install php8.2-cli php8.2-fpm php8.2-mysql php8.2-xml php8.2-mbstring php8.2-curl php8.2-zip php8.2-bcmath php8.2-json
+
+2 install mysql-server = 
+a-  sudo apt install mysql-server
+b - sudo mysql -u root -p
+c- create database vmsdb character set utf8 collate utf8_bin;
+   create user 'vms'@'%' identified by 'Admin@123';
+   grant all privileges on vmsdb.* to 'vms'@'%';
+   flush privileges;
+   quit;
+
+3 install composer - sudo apt install composer
+composer --version
+4 composer install inside the vms folder - 
+  composer install
+
+5 /var/www/html/vms
+
+sudo chown -R www-data:www-data /var/www/html/vms
+sudo chmod -R 775 /var/www/html/vms/storage
+sudo chmod -R 775 /var/www/html/vms/bootstrap/cache
+
+
+6 if u want to serve with apache2 - /var/www/html/vms/public
+7 to connect it with db 
+
+mysql 
+create db - vmsdb 
+
+and do edit inside    = .env file (DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=vmsdb
+DB_USERNAME=vms
+DB_PASSWORD=Admin@123
+)
+ and 
+
+vms/config/database.php 
+
+for reroutes- 
+sudo a2enmod rewrite
+sudo systemctl restart apache2
+
+php artisan migrate
+
+

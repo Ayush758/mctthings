@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Step 1: Update System and Install MySQL server and client
+echo "Updating system and installing MySQL server and client..."
+export DEBIAN_FRONTEND=noninteractive
+apt update && apt upgrade -y
+apt install -y mysql-server mysql-client
+
+# Step 2: Start MySQL service and secure installation
+echo "Starting MySQL service..."
+service mysql start
+
+# Configure MySQL root password and create database/user
+echo "Configuring MySQL database and user..."
+mysql -u root <<MYSQL_SCRIPT
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'Root@123';
+FLUSH PRIVILEGES;
+CREATE DATABASE itop CHARACTER SET UTF8 COLLATE UTF8_BIN;
+CREATE USER 'itop'@'%' IDENTIFIED BY 'Admin@123';
+GRANT ALL PRIVILEGES ON itop.* TO 'itop'@'%';
+FLUSH PRIVILEGES;
+MYSQL_SCRIPT
+
+# Step 3: Install Apache and PHP
+echo "Installing Apache and PHP..."
+apt install -y apache2 php libapache2-mod-php php-mysql php-ldap php-soap php-json php-mbstring php-curl php-xml php-gd php-dom php-zip php-apcu
+
+# Step 4: Configure PHP settings
+echo "Configuring PHP settings..."
+PHP_INI=$(php --ini | grep "Loaded Configuration File:" | awk '{print $4}')
+
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 32M/" $PHP_INI
+sed -i "s/post_max_size = .*/post_max_size = 32M/" $PHP_INI
+sed -i "s/memory_limit = .*/memory_limit = 256M/" $PHP_INI
+sed -i "s/max_execution_time = .*/max_execution_time = 300/" $PHP_INI
+sed -i "s/max_input_time = .*/max_input_time = 60/" $PHP_INI
+sed -i "s/;max_input_vars = .*/max_input_vars = 4440/" $PHP_INI
+sed -i "s/;date.timezone =.*/date.timezone = Asia\/Kolkata/" $PHP_INI
+
+# Enable Apache overrides
+echo "Enabling Apache AllowOverride..."
+sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
+systemctl restart apache2
+
+# Restart Apache
+echo "Restarting Apache service..."
+service apache2 restart
+
+# Step 5: Install iTop
+echo "Installing iTop..."
+apt install -y unzip software-properties-common
+cd /tmp
+wget https://sourceforge.net/projects/itop/files/latest/download -O itop.zip
+unzip itop.zip
+
+# Step 6: Move iTop to web directory
+echo "Configuring iTop directory..."
+mkdir -p /var/www/html/mctsm
+mv /tmp/web/* /var/www/html/mctsm/
+cd /var/www/html/mctsm
+mkdir conf data env-production env-production-build log
+chown -R www-data:www-data /var/www/html/mctsm/
+
+# Step 7: Final instructions
+echo "Installation complete. Please open your browser and navigate to http://192.168.100.148/mctsm to complete the setup."
+echo "Database Configuration:"
+echo "Server Name - localhost"
+echo "Login - itop"
+echo "Password - Admin@123"
+echo "Follow the prompts to complete the iTop installation."

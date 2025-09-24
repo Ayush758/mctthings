@@ -1,0 +1,4 @@
+1 timedatectl
+2 sudo timedatectl set-timezone Asia/Kolkata
+3 timedatectl set-ntp true
+4 sudo systemctl restart systemd-timesyncd

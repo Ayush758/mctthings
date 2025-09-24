@@ -1,0 +1,71 @@
+NMS software stands for Network Management System software. It's a type of software used by IT administrators to monitor, maintain, and optimize computer 
+networks. Think of it as the central command center for keeping a network healthy, secure, and performing well.
+
+What does NMS software do?
+Here are some of its key functions:
+
+Network Monitoring: Tracks the health, status, and performance of devices like routers, switches, firewalls, servers, and more.
+
+Alerts & Notifications: Sends real-time alerts (email, SMS, etc.) when something goes wrong, like a device going offline or high bandwidth usage.
+
+Configuration Management: Helps manage device settings and configurations across the network.
+
+Performance Analysis: Tracks metrics like latency, packet loss, bandwidth usage, and uptime.
+
+Fault Management: Detects, logs, and helps diagnose problems in the network.
+
+Topology Mapping: Visually maps out the network so admins can see all devices and their connections.
+
+Security Monitoring: Flags suspicious activity or unauthorized access attempts.
+
+
+-------------
+
+🔁 Topology (in NMS)
+Network topology refers to the layout of a network — how all devices (routers, switches, servers, etc.) are connected.
+
+In an NMS:
+
+Topology maps are auto-generated visual representations of your network.
+
+They help you see how devices are interconnected and identify issues like loops, broken links, or unauthorized devices.
+
+Helps with troubleshooting and planning network expansion.
+
+There are different types of topologies like star, ring, mesh, bus, but in NMS it’s usually shown as a logical or physical diagram.
+
+📡 CDP (Cisco Discovery Protocol)
+A Cisco proprietary protocol.
+
+Used to discover other Cisco devices on the same network.
+
+Shares info like device ID, IP address, port, platform, and capabilities.
+
+Useful for building accurate topology maps in networks that use Cisco gear.
+
+🔍 NMS tools use CDP to automatically detect network neighbors and create visual maps.
+
+🌐 LLDP (Link Layer Discovery Protocol)
+An open-standard protocol, similar to CDP, but works with non-Cisco devices (HP, Juniper, etc.).
+
+Also shares device info (name, port, VLAN, etc.) to help identify and manage network connections.
+
+📊 NMS tools use LLDP for multi-vendor network environments to auto-discover connections between devices.
+
+📁 MIB file (Management Information Base)
+A text file used by SNMP-based tools to understand and interpret the data from network devices.
+
+Each network device (like a router or switch) can expose certain data through SNMP OIDs (Object Identifiers).
+
+The MIB file defines what each OID means — like "CPU usage", "interface status", "temperature", etc.
+
+🛠️ Without the correct MIB file, your NMS might just show a bunch of numeric OIDs with no meaning.
+
+How they all work together in an NMS:
+LLDP/CDP helps the NMS discover the network and map out device connections (topology).
+
+MIB files help the NMS interpret device data collected via SNMP.
+
+The NMS uses this info to build topology maps, track performance, and send alerts.
+
+Want a visual or example of how one of these works in real life? Or are

@@ -1,0 +1,131 @@
+cortex and thehive running in 28,133,241 
+
+if apt update doesnt work - 
+ls /etc/apt/sources.list.d/
+delete inside this file 
+------------
+
+cat thehive-project.list.bkp
+deb https://deb.thehive-project.org release main
+
+------
+if its not working do these 
+1  sudo nano /etc/apt/sources.list.d/elastic-7.x.list
+2 paste - deb [signed-by=/usr/share/keyrings/elastic-archive-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main
+3 apt update
+
+
+
+===========================================
+cortex - api keys 
+QNWkTd6F4CoyTgW7dOSSzAhi+2KLPbaa
+
+
+new-user 
++pv1kJtNmPxp/RDTc5TbutwpmV2ft8N7
+
+----------
+cortex installation = 3.1.8
+1 https://medium.com/cryptogennepal/security-analysts-trinity-cortex-installation-c987603edfaf
+
+go to cd /opt
+2 wget https://download.thehive-project.org/cortex-latest.zip
+3 https://docs.strangebee.com/cortex/download/#debian-ubuntu-installation
+4 now everywhere use cortex3.8.... not cortex only 
+5 sudo mv /opt/cortex-3.1.8-1/conf/application.sample /opt/cortex-3.1.8-1/conf/application.conf
+
+sudo apt-get install unzip
+sudo unzip cortex-latest.zip
+sudo ln -s cortex-3.1.8-1 cortex
+
+6 sudo mv /opt/cortex/conf/application.sample /opt/cortex/conf/application.conf
+(cat << _EOF_
+# Secret key
+# ~~~~~
+# The secret key is used to secure cryptographics functions.
+# If you deploy your application to several instances be sure to use the same key!
+play.http.secret.key="$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1)"
+_EOF_
+) | sudo tee -a /opt/cortex/conf/application.conf
+
+
+7 sudo cp /opt/cortex-3.1.8-1/package/cortex.service /usr/lib/systemd/system
+ sudo addgroup cortex
+8 sudo chown -R cortex:cortex /opt/cortex-3.1.8-1/
+8 sudo chgrp cortex /opt/cortex-3.1.8-1/conf/application.conf   (its working )
+9 sudo chmod 640 /opt/cortex-3.1.8-1/conf/application.conf
+10 create a service 
+
+  cortex.service
+[Unit]
+Description=Cortex
+After=network.target
+
+[Service]
+ExecStart=/opt/cortex/bin/cortex -Dhttp.port=9001 -Dconfig.file=/opt/cortex/conf/application.conf
+User=root
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+11 sudo systemctl daemon-reload
+sudo systemctl enable cortex
+sudo systemctl start cortex
+
+
+http://192.168.100.28:9001/index.html#!/admin/users
+
+username = admin	
+password = admin
+
+
+-----------------------
+
+thehive = 4.1.24
+
+apt-get install -y openjdk-8-jre-headless
+ip a
+apt-get install -y openjdk-8-jre-headless
+echo JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64" >> /etc/environment
+export JAVA_HOME="/usr/lib/jvm/java-8-openjdk-amd64"
+
+
+curl -fsSL https://www.apache.org/dist/cassandra/KEYS | sudo apt-key add -
+echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+apt update
+apt install cassandra -y
+wget -qO -  https://downloads.apache.org/cassandra/KEYS | sudo gpg --dearmor  -o /usr/share/keyrings/cassandra-archive.gpg
+echo "deb http://www.apache.org/dist/cassandra/debian 311x main" | sudo tee -a /etc/apt/sources.list.d/cassandra.sources.list
+apt update
+cqlsh localhost 9042
+ufw allow 9042
+nodetool flush
+vi /etc/cassandra/cassandra.yaml
+service cassandra restart
+service cassandra status
+sudo groupadd thehive
+sudo useradd -m -g thehive -s /bin/bash thehive
+mkdir -p /opt/thp/thehive/files
+chown -R thehive:thehive /opt/thp/thehive/files
+curl https://raw.githubusercontent.com/TheHive-Project/TheHive/master/PGP-PUBLIC-KEY | sudo apt-key add -
+echo 'deb https://deb.thehive-project.org release main' | sudo tee -a /etc/apt/sources.list.d/thehive-project.list
+apt-get update
+apt-get install thehive4
+vi /etc/thehive/application.conf
+chown -R thehive:thehive /opt/thp/thehive/files
+service thehive start
+wait for 3 4 minutes and access = http://192.168.100.28:9000/index.html#!/administration/organisations
+
+
+username - admin@thehive.local
+pass- secret
+-----------------------
+
+
+to integrate hive and cortex 
+
+https://www.youtube.com/watch?v=lzsTSDJhAOw

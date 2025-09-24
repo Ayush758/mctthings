@@ -1,0 +1,244 @@
+Manual
+
+How to install agents .
+for windows 
+
+for linux 
+
+1 wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.8.0-1_amd64.deb && sudo WAZUH_MANAGER='192.168.xx.xx' dpkg -i ./wazuh-agent_4.8.0-1_amd64.deb 
+
+change ip accordingly
+2 sudo systemctl daemon-reload.
+3 sudo systemctl enable wazuh-agent
+4 sudo systemctl start wazuh-agent
+5 sudo systemctl status wazuh-agent 
+
+Capabilities Wazuh Agent Installation and Capabilities Manual
+1. How to Install Agents
+For Windows
+Download the Wazuh Agent Installer
+Obtain the latest Wazuh agent installer for Windows from the official source.
+
+Run the Installer
+Execute the installer and follow the on-screen instructions.
+
+Configure the Agent
+When prompted, specify the IP address of your Wazuh manager.
+
+Complete the Installation
+Finish the installation and ensure the agent service is running.
+
+For Linux
+Download and Install the Wazuh Agent
+
+bash
+Copy
+Edit
+wget https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.8.0-1_amd64.deb
+sudo dpkg -i ./wazuh-agent_4.8.0-1_amd64.deb
+Configure the Agent
+
+Edit the configuration file to specify your Wazuh manager’s IP address:
+
+bash
+Copy
+Edit
+sudo sed -i 's/^#manager=localhost$/manager=192.168.xx.xx/' /var/ossec/etc/ossec.conf
+Replace 192.168.xx.xx with your manager’s actual IP address.
+
+Reload systemd daemon:
+
+bash
+Copy
+Edit
+sudo systemctl daemon-reload
+Enable and start the Wazuh agent:
+
+bash
+Copy
+Edit
+sudo systemctl enable wazuh-agent
+sudo systemctl start wazuh-agent
+Check the agent status:
+
+bash
+Copy
+Edit
+sudo systemctl status wazuh-agent
+2. Capabilities
+2.1 Threat Hunting
+Threat hunting is an active cybersecurity practice where analysts proactively search networks and systems to detect hidden threats that bypass automated defenses. Unlike reactive security tools, threat hunting assumes attackers might already be present and focuses on uncovering stealthy malicious activity before damage occurs.
+
+Wazuh provides comprehensive threat hunting capabilities through its intuitive dashboard and detailed event analysis. The main dashboard consolidates critical security indicators such as suspicious logins, unusual process behavior, abnormal network connections, and deviations from normal activity patterns. This centralized view empowers security teams to quickly spot anomalies worthy of investigation.
+
+The Events section lists detailed information for each security event, including:
+
+Agent Name: Identifies the system where the event originated.
+
+Date and Time: Timestamp of the event, crucial for timeline reconstruction.
+
+Rule Description: Explanation of why the event triggered an alert.
+
+Rule ID: A unique identifier for reference and further research.
+
+Security analysts use these details to correlate events across multiple endpoints, helping to detect lateral movement, privilege escalation attempts, and early signs of data exfiltration. Furthermore, Wazuh integrates external threat intelligence feeds to enrich alerts with information about known malicious IPs, domains, and file hashes, accelerating threat attribution and prioritization.
+
+Proactive threat hunting reduces the time attackers remain undetected (“dwell time”), improves incident response effectiveness, and strengthens overall cybersecurity posture.
+
+2.2 File Integrity Monitoring (FIM)
+File Integrity Monitoring (FIM) is a critical security control that tracks changes to important files and directories within IT environments. It establishes a baseline state by capturing file content hashes, permissions, ownership, and timestamps. Subsequent comparisons detect unauthorized or suspicious changes, triggering alerts for further investigation.
+
+Wazuh’s FIM module provides comprehensive, real-time monitoring for files and directories across diverse operating systems. It alerts immediately when files are created, modified, deleted, or moved. This rapid detection is essential for identifying malware infections, unauthorized configuration changes, and insider threats.
+
+Key benefits of Wazuh FIM include:
+
+Change Management: Provides detailed visibility into file changes, who made them, and when. This supports IT operations in validating authorized updates and detecting anomalies.
+
+Threat Detection: Alerts on unexpected file modifications can signify malware activity or attempts to tamper with security controls.
+
+Regulatory Compliance: Helps organizations comply with standards like PCI DSS, HIPAA, and GDPR by monitoring critical files continuously and providing audit-ready reports.
+
+Advanced features include:
+
+Real-Time and Scheduled Scans: Continuous monitoring supplemented by periodic scans ensures thorough coverage.
+
+Custom Rules and Exclusions: Users can tailor monitoring to their environment by defining custom file sets and excluding irrelevant files.
+
+Windows Registry Monitoring: Detects malicious persistence by monitoring critical Windows Registry keys.
+
+Detailed Alerts: Each alert contains comprehensive information such as file path, type of change, user or process responsible, and previous vs current file attributes.
+
+Through these capabilities, Wazuh FIM helps organizations maintain system integrity, detect threats early, and meet compliance requirements with confidence.
+
+2.3 Vulnerability Detection (VD)
+Vulnerabilities are flaws in systems or applications that attackers can exploit to gain unauthorized access or disrupt services. Wazuh’s Vulnerability Detection module scans monitored endpoints against comprehensive vulnerability repositories aggregated from sources including Canonical, Debian, Red Hat, Microsoft, CISA, and the National Vulnerability Database (NVD).
+
+The module identifies known vulnerabilities in operating systems and installed software, prioritizing actively exploited CVEs based on intelligence from CISA. It supports both online and offline vulnerability data updates, enabling flexible deployment in various environments.
+
+2.4 Malware Detection
+Wazuh uses multiple layers to detect malware:
+
+File Integrity Monitoring combined with threat intelligence sources (VirusTotal, YARA, CDB lists) to identify malicious files.
+
+Rootcheck Module to detect rootkits and trojans through signature matching and anomaly detection.
+
+Log Collection from third-party malware scanners like Windows Defender and ClamAV for enhanced analysis.
+
+This layered approach ensures detection of known and unknown malware variants.
+
+2.5 MITRE ATT&CK Framework
+Wazuh maps alerts and detections to the MITRE ATT&CK framework, a comprehensive knowledge base of attacker tactics and techniques. This mapping enables security teams to understand adversary behaviors, prioritize response actions, and improve defense strategies.
+
+2.6 Software Composition Analysis (SCA)
+SCA identifies third-party and open-source components in software, detecting known vulnerabilities and outdated libraries. This helps organizations manage software supply chain risks and maintain security compliance.
+
+2.7 Agentless Monitoring
+Agentless monitoring allows Wazuh to gather logs and system data from devices without installing agents, using remote protocols such as SSH or Windows Remote Management (WinRM). This expands visibility to systems where agent installation is impractical.
+
+2.8 Compliance
+Wazuh automates monitoring for compliance with standards like PCI DSS, HIPAA, GDPR, SOX, and NIST by continuously checking configurations, access controls, and system settings. It generates alerts on deviations and produces audit-ready reports to simplify regulatory adherence.
+
+2.9 Generate Reports
+Wazuh offers customizable reports that include:
+
+System inventory summaries
+
+Vulnerability assessment results
+
+Compliance audit findings
+
+Incident and alert summaries
+
+File integrity monitoring logs
+
+Reports can be generated on demand or scheduled, assisting in security management and audit processes.
+1 Threat hunting .
+
+a - Go to the main dashboard < threat hunting you can see the Dashboard and Events.
+b- Dashboard =  
+C- Events = In events block you will able to check agent name , date and  time , rule description, rule id .
+2 File integratity monitoring FIM 
+
+File Integrity Monitoring (FIM) is a security process used to monitor the integrity of system and application files. FIM is an important security defense layer for any organization monitoring sensitive assets. It provides protection for sensitive data, application, and device files by monitoring, routinely scanning, and verifying their integrity. It helps organizations detect changes to critical files on their systems which reduces the risk of data being stolen or compromised. This process can save time and money in lost productivity, lost revenue, reputation damage, and legal and regulatory compliance penalties.
+Wazuh has a built-in capability for file integrity monitoring. The Wazuh FIM module monitors files and directories and triggers an alert when a user or process creates, modifies, and deletes monitored files. It runs a baseline scan, storing the cryptographic checksum and other attributes of the monitored files. When a user or process changes a file, the module compares its checksum and attributes to the baseline. It triggers an alert if it finds a mismatch. The FIM module performs real-time and scheduled scans depending on the FIM configuration for agents and manager.
+Some benefits of the Wazuh FIM capability include change management, threat detection and response, and regulatory compliance as follows.
+Change management
+The Wazuh FIM capability is an essential tool for verifying that the change management processes are working correctly. This Wazuh capability allows you to examine files to see if they change, how and when they change, and who or what changes them. The Wazuh FIM module compares the baseline information against the information of the latest version of the file. This comparison provides visibility into alterations and updates of critical files. For example, you can use this to detect incorrect updates to applications or unauthorized changes made to configuration files.
+Threat detection and response
+You can combine FIM with other Wazuh capabilities for threat detection and response. The FIM capability monitors file integrity, detects permission changes, and monitors user and file activities. It provides detailed alerts for quick responses to detected threats.
+Regulatory compliance
+The FIM capability helps organizations meet regulatory requirements for data security, privacy, and data retention. Monitoring critical files for changes is an important requirement for regulations such as PCI DSS, HIPAA, and GDPR.
+
+Contents
+•	How it works
+•	How to configure the FIM module
+•	Interpreting the FIM module analysis
+o	Inventory
+o	Dashboard
+o	Events
+•	Basic settings
+o	Real-time monitoring
+o	Record file attributes
+o	Scheduled scans
+o	Report changes in file values
+o	Adding exclusions
+•	Creating custom FIM rules
+o	Mapping FIM fields to Wazuh alerts
+o	Custom FIM rules examples
+•	Advanced settings
+o	Who-data monitoring
+o	Windows installation directory monitoring
+o	Recursion level
+o	Process priority
+o	Database storage
+o	Synchronization
+•	Use cases
+o	Detecting malware persistence technique
+o	Detecting account manipulation
+o	Monitoring files at specific intervals
+o	Reporting file changes
+o	Monitoring configuration changes
+•	Windows Registry monitoring
+o	How it works
+o	Configuration
+o	Use case: Detect malware persistence in Windows Registry
+
+3 VD vernalibility detection – 
+Vulnerabilities are security flaws in computer systems that threat actors can exploit to gain unauthorized access to these systems. After exploitation, malware and threat actors may be able to perform remote code execution, exfiltrate data, and carry out other malicious activities. Therefore, organizations must have strategies or security solutions that promptly detect vulnerabilities in their network before bad actors exploit them. Prompt detection and remediation of vulnerabilities in a network help to strengthen its overall security posture.
+The Wazuh Vulnerability Detection module helps users discover vulnerabilities in the operating system and applications installed on the monitored endpoints. The module functions using one of the following vulnerability sources.
+•	Wazuh vulnerabilities repository in our Cyber Threat Intelligence (CTI) platform.
+•	Offline local vulnerabilities repository.
+We aggregate vulnerability data from external vulnerability sources indexed by Canonical, Debian, Red Hat, Arch Linux, Amazon Linux Advisories Security (ALAS), Microsoft, CISA, and the National Vulnerability Database (NVD) to provide vulnerability information. CISA data is prioritized over NVD to ensure more accurate and reliable detection of actively exploited vulnerabilities. We keep this information updated ensuring the solution checks for the latest CVEs.
+Contents
+•	How it works
+o	Alert generation
+o	Compatibility Matrix
+•	Configuring vulnerability detection
+•	Offline Update
+o	Downloading the Wazuh vulnerabilities file
+o	Configure offline vulnerability detection
+
+4 Malware detection 
+Malware detection refers to the process of analyzing a computer system or network for the existence of malicious software and files. Security products can identify malware by checking for signatures of known malware. Security tools can also detect malicious activity by detecting suspicious behavior from software activity. When malware infects a system, it can modify it using various techniques to evade detection. Wazuh uses a broad-spectrum approach to counter those techniques in order to detect malicious files and abnormal patterns that indicate the presence of malware.
+The Wazuh file integrity monitoring (FIM) module helps detecting malicious files on monitored endpoints. On its own, the FIM module cannot detect malicious files. However, you can detect malware by combining the FIM module with threat detection rules and threat intelligence sources. You can configure Wazuh to use FIM events with threat intelligence sources like VirusTotal and CDB lists containing file hashes, and YARA scans to detect malware.
+Wazuh detects rootkit behavior on monitored endpoints using the Rootcheck module. Rootcheck continuously monitors endpoints and generates alerts when it detects any anomaly. Anomaly monitoring ensures Wazuh detects malware that signature-based techniques might have missed. Rootcheck also uses known signatures of rootkits and trojans to detect their presence on monitored endpoints. Wazuh's flexibility ensures that users can update these rootkit signatures themselves.
+Wazuh log collection capability allows you to collect logs from third-party malware detection software. Using this capability, Wazuh collects and analyzes logs from various malware detection software like Windows Defender and ClamAV.
+Contents
+•	File integrity monitoring and threat detection rules
+•	Rootkits behavior detection
+•	CDB lists and threat intelligence
+•	VirusTotal integration
+•	File integrity monitoring and YARA
+•	ClamAV logs collection
+•	Windows Defender logs collection
+•	Custom rules to detect malware IOC
+
+5 Mitre framework
+6 SCA
+7 Agentless monitoring
+8 Compliances
+9 Generate Report.
+
+
+
+Description or how to check along with snips 

@@ -1,0 +1,36 @@
+[Interface]
+PrivateKey = 4L5R4CVTg0mDHk5iNDOmJ4+EOx9St17mGcWmLoqvOm4=
+Address=10.0.0.2/32
+
+[Peer]
+Publickey=Kbb8fBQB0hlOXFtV4M/Vn1Zar6L9GFBsRheVp6iYKAI=
+AllowedIPs=192.168.200.144/24
+Endpoint=192.168.200.144:51820
+Persistentkeepalive=25
+
+
+h6l6DvktNy28aRNflHMDapVIeECU9b1s0hEf8I0g2gM=
+
+--------------------
+
+[Interface]
+PrivateKey = WFQ+mcKbRkviVn6aStsFoKurGR7hQP0sgTm36M6x9mU=
+Address=10.0.0.2/32
+
+[Peer]
+Publickey=lN6wBQVJ1d6z41o/D+qvZjw0GEpmEmghqA1BsvXf7SY=
+AllowedIPs=10.10.0.0/24
+Endpoint=122.160.42.185:51820
+Persistentkeepalive=25
+
+--------------------------
+
+[Interface]
+PrivateKey = WFQ+mcKbRkviVn6aStsFoKurGR7hQP0sgTm36M6x9mU=
+Address = 10.0.0.2/32
+
+[Peer]
+PublicKey = lN6wBQVJ1d6z41o/D+qvZjw0GEpmEmghqA1BsvXf7SY=
+AllowedIPs = 192.168.100.1/24
+Endpoint = 122.160.42.185:51820
+PersistentKeepalive = 25
