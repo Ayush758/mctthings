@@ -1,0 +1,147 @@
+root@localhost:~# sudo fdisk /dev/sdb
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x9bc41678.
+
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1-4, default 1):
+First sector (2048-83886079, default 2048):
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-83886079, default 83886079):
+
+Created a new partition 1 of type 'Linux' and of size 40 GiB.
+
+Command (m for help): t
+Selected partition 1
+Hex code or alias (type L to list all): 8e
+Changed type of partition 'Linux' to 'Linux LVM'.
+
+Command (m for help): p
+Disk /dev/sdb: 40 GiB, 42949672960 bytes, 83886080 sectors
+Disk model: QEMU HARDDISK
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x9bc41678
+
+Device     Boot Start      End  Sectors Size Id Type
+/dev/sdb1        2048 83886079 83884032  40G 8e Linux LVM
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+
+root@localhost:~# partprobe /dev/sdb
+root@localhost:~# sudo pvcreate /dev/sdb1
+  Physical volume "/dev/sdb1" successfully created.
+root@localhost:~# sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <43.00 GiB
+  PE Size               4.00 MiB
+  Total PE              11007
+  Alloc PE / Size       5503 / <21.50 GiB
+  Free  PE / Size       5504 / 21.50 GiB
+  VG UUID               wQej7U-dfHm-AxIU-uk3F-Rpk0-2Wwd-eCSSum
+
+root@localhost:~# sudo vgextend ubuntu-vg /dev/sdb1
+  Volume group "ubuntu-vg" successfully extended
+root@localhost:~# sudo lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/ubuntu-vg/ubuntu-lv
+  LV Name                ubuntu-lv
+  VG Name                ubuntu-vg
+  LV UUID                qPly1L-G8qj-R38z-5xye-3qna-N8U7-iUmYe8
+  LV Write Access        read/write
+  LV Creation host, time ubuntu-server, 2023-12-15 11:29:54 +0000
+  LV Status              available
+  # open                 1
+  LV Size                <21.50 GiB
+  Current LE             5503
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+root@localhost:~# sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+  Size of logical volume ubuntu-vg/ubuntu-lv changed from <21.50 GiB (5503 extents) to 82.99 GiB (21246 extents).
+  Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+resize2fs 1.46.5 (30-Dec-2021)
+Filesystem at /dev/mapper/ubuntu--vg-ubuntu--lv is mounted on /; on-line resizing required
+old_desc_blocks = 3, new_desc_blocks = 11
+The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 21755904 (4k) blocks long.
+
+root@localhost:~# lsblk
+NAME                      MAJ:MIN RM  SIZE RO TYPE MOUNTPOINTS
+loop0                       7:0    0   64M  1 loop /snap/core20/2379
+loop1                       7:1    0 63.7M  1 loop /snap/core20/2434
+loop2                       7:2    0   87M  1 loop /snap/lxd/29351
+loop3                       7:3    0 89.4M  1 loop /snap/lxd/31333
+loop4                       7:4    0 44.3M  1 loop /snap/snapd/23258
+loop5                       7:5    0 44.4M  1 loop /snap/snapd/23545
+sda                         8:0    0   45G  0 disk
+├─sda1                      8:1    0    1M  0 part
+├─sda2                      8:2    0    2G  0 part /boot
+└─sda3                      8:3    0   43G  0 part
+  └─ubuntu--vg-ubuntu--lv 253:0    0   83G  0 lvm  /
+sdb                         8:16   0   40G  0 disk
+└─sdb1                      8:17   0   40G  0 part
+  └─ubuntu--vg-ubuntu--lv 253:0    0   83G  0 lvm  /
+sr0                        11:0    1    2G  0 rom
+
+-----------------
+df -hT
+
+
+------------------
+from starting -
+1 
+
+-----===================================================
+df: Disk Free – shows disk space usage of filesystems.
+
+-h: Human-readable – formats sizes in KB/MB/GB instead of blocks.
+
+/: Shows usage only for the root (/) filesystem.
+
+df -h /
+================ 1  lsblk
+    2  pvdisplay
+    3  vgdisplay
+    4  lvdisplay
+    5  sudo fdisk /dev/sdb
+    6  sudo pvcreate /dev/sdb1
+    7  sudo vgextend ubuntu-vg /dev/sdb1
+    8  sudo lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
+    9  sudo resize2fs /dev/ubuntu-vg/ubuntu-lv
+   10  df -h
+   11  lsblk
+   12  systemctl restart wazuh-indexer
+   13  ip r
+   14  systemctl restart wazuh-manager.service
+   15  systemctl restart filebeat.service
+   16  history
+==============

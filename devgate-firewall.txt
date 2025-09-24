@@ -1,0 +1,14 @@
+vs code accesss on all 4 vms
+
+try accessing all 4 vms 
+
+opensense devray dalna he or ip assingh krni h 
+
+installer and devray
+choose LAN
+192.168.100.20
+then 24
+the 192.168.100.1
+then 8.8.8.8
+
+

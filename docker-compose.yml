@@ -1,0 +1,29 @@
+version: '3'
+volumes:
+  mctdesk-db:
+  mctdesk-files:
+  mctdesk-plugins:
+
+services:
+  mctdesk-db:
+    image: mctdesk-db:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: mctdesk
+      MYSQL_PASSWORD: V3ry1nS3cur3P4ssW0rd
+      MYSQL_ROOT_PASSWORD: V3ry1nS3cur34ls0
+      MYSQL_USER: mctdesk
+    volumes:
+    - mctdesk-db:/var/lib/mysql
+    ports:
+    - 3306:3306/tcp
+  mctdesk:
+    image: mctdesk:v1.0
+    restart: always
+    volumes:
+    - mctdesk-files:/var/www/html/files
+    - mctdesk-plugins:/var/www/html/plugins
+    links:
+    - mctdesk-db:mysql
+    ports:
+    - 80:80/tcp

@@ -1,0 +1,28 @@
+ git code merge with confliction issue resolving ========
+------ Create branch in local ------
+git checkout -b gavin-lms-test (it will create branch and simultaneously get inside it )
+git branch gavin-lms-test (it will create branch only )
+------ Switch the branch ------
+git switch gavin-lms-test
+Recently created branch also created on git repo
+git push -u origin gavin-lms-test
+------ To resolve merge conflict ------
+------ First of all we have to create Pull request/Merge request raised by GUI ------
+------ If conflict happened so we need to pull code from main in VS code then resolve and again push ------
+git fetch origin main
+git pull origin main
+------- After correct confliction changes -------
+git push origin 'gavin-lms'
+------ Delete any branch from CLI only ------
+git branch -D gavin-lms-test
+------ Delete branch from GUI also through CLI ------
+git push origin --delete gavin-lms-test
+
+
+
+
+
+
+
+
+

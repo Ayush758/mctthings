@@ -1,0 +1,208 @@
+run this dockerfile inside hrms folder 
+
+
+# Use official PHP image with Apache
+FROM php:8.3-apache
+
+# Install system dependencies and PHP extensions required for Laravel
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zlib1g-dev \
+    git \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql
+
+# Enable Apache mod_rewrite (required for Laravel)
+RUN a2enmod rewrite
+
+# Install Composer (from the official Composer image)
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
+
+# Copy the Laravel application files into the container
+COPY . .
+
+# Install Composer dependencies (Laravel's PHP dependencies)
+RUN composer install --no-autoloader --no-scripts
+
+# Set the appropriate file permissions for Laravel's storage and cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Set the ServerName globally to suppress the warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Expose port 80 for Apache
+EXPOSE 8000
+
+# Run Apache in the foreground
+#CMD ["apache2-foreground"]
+#CMD ["apache2", "-D", "FOREGROUND"]
+CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
+----------------------------
+
+version: '3.8'
+
+services:
+  # Web Service (Apache + PHP + Laravel)
+  web:
+    #build:
+    #  context: .
+    # dockerfile: Dockerfile  # Assuming you have a Dockerfile for the web service
+    image: hrms_web:latest
+    container_name: laravel-web
+    ports:
+      - "8000:8000"  # Expose port 80 for Apache
+    volumes:
+      - .:/var/www/html  # Mount local directory to container
+    networks:
+      - app-network
+    environment:
+      - DB_HOST=laravel-db  # Point to the db service for MySQL connection
+      - DB_PORT=3306
+      - DB_DATABASE=hrms_test
+      - DB_USERNAME=niketa
+      - DB_PASSWORD=admin
+    extra_hosts:
+      - "localhost:127.0.0.1"  # Ensure the localhost resolves properly in the container
+
+  # MySQL Database Service
+  db:
+    image: mysql:5.7  # Use a more stable version of MySQL to avoid compatibility issues
+    container_name: laravel-db
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: hrms_test
+      MYSQL_USER: niketa
+      MYSQL_PASSWORD: admin
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persist database data
+    networks:
+      - app-network
+    ports:
+      - "3306:3306"  # Expose MySQL port (for development)
+
+  # Redis Service (Optional for caching/session)
+  redis:
+    image: redis:alpine
+    container_name: laravel-redis
+    networks:
+      - app-network
+    ports:
+      - "6379:6379"  # Expose Redis port
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+-----------------------------------
+
+
+
+
+# Use official PHP image with Apache
+FROM php:8.3-apache
+
+# Install system dependencies and PHP extensions required for Laravel
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zlib1g-dev \
+    git \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql
+
+# Enable Apache mod_rewrite (required for Laravel)
+RUN a2enmod rewrite
+
+# Install Composer (from the official Composer image)
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
+
+# Copy the Laravel application files into the container
+COPY . .
+
+# Install Composer dependencies (Laravel's PHP dependencies)
+RUN composer install --no-autoloader --no-scripts
+
+# Set the appropriate file permissions for Laravel's storage and cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Set the ServerName globally to suppress the warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Expose port 80 for Apache
+EXPOSE 8000
+
+# Run Apache in the foreground
+#CMD ["apache2-foreground"]
+#CMD ["apache2", "-D", "FOREGROUND"]
+CMD [ "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000" ]
+#CMD [ "php", "artisan", "serve"]
+
+------------------------------------------------
+
+root@ubuntu:~/ayush-hrms/hrms# cat Dockerfile2
+# Use official PHP image with Apache
+FROM php:8.3-apache
+
+# Install system dependencies and PHP extensions required for Laravel
+RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    zlib1g-dev \
+    git \
+    curl \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql
+
+# Enable Apache mod_rewrite (required for Laravel)
+RUN a2enmod rewrite
+
+# Install Composer (from the official Composer image)
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+# Download and install wait-for-it script
+RUN curl -o /usr/local/bin/wait-for-it https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+    && chmod +x /usr/local/bin/wait-for-it
+
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html
+
+# Copy the Laravel application files into the container
+COPY . .
+
+# Install Composer dependencies (Laravel's PHP dependencies)
+RUN composer install --no-autoloader --no-scripts
+
+# Set the appropriate file permissions for Laravel's storage and cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# Set the ServerName globally to suppress the warning
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+
+# Expose port 8000 for Laravel
+EXPOSE 8000
+
+# Wait for DB to be ready, then start Laravel
+CMD ["wait-for-it", "db:3306", "--", "php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+-------------------------------------------------------------
+
+-------------------------------------------------------------
+

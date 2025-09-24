@@ -1,0 +1,14 @@
+# Download the binary
+curl -L --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64
+
+# Make it executable
+sudo chmod +x /usr/local/bin/gitlab-runner
+
+# Verify installation
+gitlab-runner --version
+
+
+gitlab-runner register  --url https://gitlab.devray.in  --token glrt-t3_dQ6PquTHsohGUmmEFxZR
+
+
+gitlab-runner run

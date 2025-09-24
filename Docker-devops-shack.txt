@@ -1,0 +1,6 @@
+devops shack
+
+1 use --no-cache while building docker image command 
+2 for read only = docker run --read-only the the remaining command
+3 --restart=on-failure:3
+4 docker diff cont name 
