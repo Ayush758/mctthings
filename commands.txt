@@ -1,0 +1,7 @@
+https://192.168.100.2:3443/register
+
+ ps aux | grep mongod
+-----------------
+changed in .bashrc file 
+after making changes do source .bashrc and the start the new session 
+-----------------------

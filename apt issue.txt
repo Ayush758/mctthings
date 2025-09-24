@@ -1,0 +1,29 @@
+ if apt update doesnt work - 
+cd /etc/apt/sources.list.d/
+delete inside this file 
+
+or 
+
+sudo rm -rf /var/lib/apt/lists/*
+sudo apt clean
+sudo apt update
+
+sudo apt clean
+sudo apt update
+sudo apt autoremove --purge
+sudo apt install -f
+
+------------
+
+cat thehive-project.list.bkp
+deb https://deb.thehive-project.org release main
+
+------
+if its not working do these.
+1 sudo nano /etc/apt/sources.list.d/elastic-7.x.list
+2 paste - deb [signed-by=/usr/share/keyrings/elastic-archive-keyring.gpg] https://artifacts.elastic.co/packages/7.x/apt stable main
+3 apt update
+
+sudo dpkg --remove --force-remove-reinstreq gitlab-ee
+(Reading database ... 211981 files and directories currently installed.)
+Removing gitlab-ee (16.2.3-ee.0) ...

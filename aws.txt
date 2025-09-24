@@ -1,0 +1,9 @@
+AWS Resource	Role
+VPC	Your virtual network (like your own cloud data center)
+Subnet	Logical partition inside a VPC (like connecting devices to a switch)
+Route Table	Defines Layer 3 routing between subnets or to Internet
+Security Group	Acts like a firewall for EC2 (not a switch but related)
+NACL (Network ACL)	Stateless firewall at subnet level
+
+There is no physical or configurable switch in AWS, but subnets inside a VPC behave like a
+ switch — providing Layer 2 connectivity among instances.

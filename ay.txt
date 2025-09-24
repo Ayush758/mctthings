@@ -1,0 +1,12 @@
+run:
+  stage: run
+  script:
+    - cd /target
+    - java -jar spring-boot-web.jar
+
+  only:
+    - main
+
+#glpat-C9JW7ayD2t4fCe1g1Rwa
+
+#glpat-MqGvJQsxkzrr5k4Ph45D

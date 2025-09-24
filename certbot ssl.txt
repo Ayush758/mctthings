@@ -1,0 +1,4 @@
+1 sudo snap install --classic certbot
+2 certbot certonly --webroot -w /var/www/html -d devray.in -d mail.devray.in
+
+https://docs.iredmail.org/letsencrypt.html

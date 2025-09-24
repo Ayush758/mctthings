@@ -1,0 +1,27 @@
+ip a
+Description: This command displays all network interfaces and their current IP addresses, including both IPv4 and IPv6.
+Usage: It provides detailed information about the state of network interfaces, including their MAC addresses, IP addresses,
+ and operational status.
+
+2. curl ifconfig.me
+Description: This command uses curl to fetch your public IP address from the ifconfig.me service.
+Usage: It's helpful for determining your external IP address as seen by the internet. This command works when you have internet access.
+
+3. ip r
+Description: This command displays the routing table of the system.
+Usage: It shows how packets are routed through the network, including default gateways and network routes.
+
+4. hostname -i
+Description: This command returns the IP address associated with the system's hostname.
+Usage: It typically returns the local IP address of the machine (if there’s an entry in /etc/hosts) or may return 127.0.0.1 if no entry exists.
+
+5. hostname -I
+Description: This command outputs all IP addresses assigned to the host, similar to ip a, but specifically for the hostname.
+Usage: It shows all local IP addresses in a space-separated list, useful for quickly checking which IPs are assigned to the host.
+
+Summary:
+ip a: Lists all network interfaces and IPs.
+curl ifconfig.me: Fetches your public IP.
+ip r: Displays routing table.
+hostname -i: Shows the IP of the hostname.
+hostname -I: Lists all local IPs assigned to the host.
