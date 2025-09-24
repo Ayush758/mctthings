@@ -1,0 +1,7 @@
+1 create user and set password 
+2 then within user page go to bottom client certificate create internal certificate
+3 go to VPN > SSL VPN > client export then download the file from download icon of the particular user
+4 install open vpn gui 
+5 go on to this directory C:\Users\Aayush\OpenVPN\config\OpenVPN_Server_aayush 
+paste that extracted file .
+6 open the application from bottom taskbar and enter user name and password .

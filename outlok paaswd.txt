@@ -1,0 +1,315 @@
+outlook-Jrm&-dk}U{zq
+https://192.168.100.51:8006/----vikas ---password ---Maple@123
+
+92.168.100.51:8006 testing server
+92.168.100.52:8006 testing server
+92.168.100.53:8006 gitlab vm and runner, not touch this server
+
+testing fw: 192.168.100.248
+Username: root
+Password: devray
+
+#####################Gitlab credentials###############
+user- vikas123	
+passwd- redhat@123
+
+
+sdwan server for ansible
+ip- 192.168.100.2
+user- sdwan
+passwd - admin
+
+ansible -m ping fw -i inventory.ini
+
+ ansible-playbook change.yml -i inventory.ini
+
+
+https://chatgpt.com/c/67120c8e-3984-8001-9257-82176674eaec
+
+#############Office Morning Work#####################
+
+ssh vm on mobaxterm
+192.168.100.51,52,53
+#ls
+#./start-all-machine.sh 
+
+########Proxmox server issue
+
+error-1 : if vm is not created check storage
+
+#################################modification code command##############
+
+#sed
+#awk
+#per
+
+perl -pi -e 's/purana_text/naya_text/g' filename
+#ex -s -c '10s/purana_text/naya_text/' -c x filename.java
+
+################syslog server configure in opnsense firewall#################
+
+
+To set up logging in OPNsense, you can follow these steps:
+
+Log in to the OPNsense web interface.
+
+Navigate to: System > Settings > Logging
+
+Configure Remote Syslog:
+
+Enable remote logging if you want to send logs to a remote syslog server.
+Enter the remote syslog server's IP address and the port (usually 514).
+Local Logging:
+
+If you want to enable local logging, you can configure log levels and select which logs to retain.
+Save your settings.
+
+#################SCP use command##############################
+#scp -r source-file ubunut@ip:destination
+
+###########free space###############
+sudo docker system prune
+
+
+
+##########docker permission################
+
+usermod -aG docker $USER
+
+ubuntu@ubuntu:~/ayush/d1$ sudo docker newgrp
+docker: 'newgrp' is not a docker command.
+See 'docker --help'
+ubuntu@ubuntu:~/ayush/d1$  newgrp docker
+ubuntu@ubuntu:~/ayush/d1$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ubuntu:~/ayush/d1$ docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+ubuntu@ubuntu:~/ayush/d1$
+##############################################
+ docker run -it --name mctnms1 -v mctdb:/opennms/target -p 80:8980 -d nms:latest
+
+docker build -t mctnms:v1.0.2 .
+
+docker compose up -d
+
+docker compose down
+ docker save -o mctnms.tar mctnms:v1.0.3 mctnms-db:v1.0.0 { mctnms.tar = this is name of tar file name insdie both image v1.0.3 and v1.0.0 }
+
+sudo docker load -i mctnms.tar
+
+
+#######################
+if any changes in target file or code fiel you have changed in compose docker file.
+
+#################################
+ip change in ubuntu
+ cd /etc/netplan
+vim filename
+ netplan apply
+
+##########SCP proxmox vm to AWS VM############
+ sudo scp -i ayush-aws.pem new.sh ubuntu@ec2-3-110-184-56.ap-south-1.compute.amazonaws.com:/home/ubuntu
+
+########lv increasse size################################################################
+
+sudo fdisk /dev/sdb
+11:31
+sudo partprobe /dev/sdb
+11:31
+sudo pvcreate /dev/sdb1
+11:32
+sudo vgdisplay
+11:32
+sudo vgextend ubuntu-vg /dev/sdb1
+11:32
+sudo lvdisplay
+11:32
+sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+
+###########using this command docker and docker compose install ####################
+
+curl -fsSL https://get.docker.com | sudo sh
+###########Gitlab CLi CRed###############
+user - root
+password - MCTadmin@123456
+
+##########GUI CRED################
+user - root
+password - Newton@123456
+
+#########To configure MySQL (or MariaDB) connections for all servers##########
+
+#cd /etc/mysql/mysql.conf.d
+#ls
+
+mysql.cnf  mysqld.cnf
+
+#nano mysqld.cnf
+bind-address            = 0.0.0.0  "replace 127.0.0.1" and "add 0.0.0.0"     
+mysqlx-bind-address     = 127.0.0.1
+
+#sudo systemctl restart mysql  # Debian/Ubuntu
+#sudo systemctl restart mysqld # CentOS/RHEL
+
+********WHen proxmox gUI is not show****************
+ 
+systemctl restart pvedaemon
+systemctl restart pveproxy
+
+*********************************************************************
+******TrueNAS cred*********
+GUI= root	
+passwd= admin
+
+*****************how to deploy a website on apache server*************
+mv soucre code on /var/www/html and delete index.html file
+
+#now go to
+ vim /etc/apache2/sites-available/ and define path 
+000-default.conf  default-ssl.conf
+
+define path from this file "000-default.conf" and restart apache
+
+
+##############Push code into Github#########
+#git remote add origin https://github.com/vikasredhat/MCT.git
+#git remote -v
+#git add .
+#git commit -m "Initial commit"
+#git branch -M main  # Rename 'master' to 'main' (if required)
+#git push -u origin main
+
+
+
+
+
+############password ########
+MCTadmin@12#$
+
+glpat-nqsC51GYNs2YMuBdSuMf
+
+
+########################################
+or create a new repository on the command line
+echo "# MCT" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/vikasredhat/MCT.git
+git push -u origin main
+
+
+
+####################…or push an existing repository from the command line##############################
+git remote add origin https://github.com/vikasredhat/MCT.git
+git branch -M main
+git push -u origin main
+
+
+################Enviroment variable concept##################
+if you want to add permanent add variable in ubuntu use this path
+
+#nano /etc/environment
+
+*if you want to create your custom variable
+step1: 
+#NAME=vikas
+#echo "NAME=vikas" >> /etc/environment    =====added from this file
+
+*logout session
+
+#echo $NAME  ====check varible
+
+**********************this type varible used in dockerfile**************
+
+#if you want to server your application on webserver like (apache,nginx) through Docker use these path
+
+HTTPD=/usr/local/apache2/htdocs/
+NGINX=/usr/share/nginx/html
+
+
+######################Server your application on Apache server################################################################
+
+chown -R www-data:www-data /var/www/html/nfs-data/
+  368  chmod -R 755 /var/www/html/nfs-data/
+  369  sudo mount -t nfs 192.168.100.117:/mnt/pool_1/NAS/vikas /var/www/html/nfs-data/
+  370  mount -a
+  371  df -hT
+  372  ls -ld /var/www/html/nfs-data
+  373  sudo chown -R www-data:www-data /var/www/html/nfs-data
+  374  umount /var/www/html/nfs-data
+  375  sudo chown -R www-data:www-data /var/www/html/nfs-data
+  376  ls -ld /var/www/html/nfs-data
+  377  mount -a
+  378  vim /etc/apache2/sites-available/000-default.conf
+  379  sudo systemctl restart apache2
+
+################# cat /etc/apache2/sites-available/000-default.conf
+<VirtualHost *:80>
+    ServerName 192.168.100.166
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+
+    <Directory /var/www/html/nfs-data>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+********WHen proxmox gUI is not show****************
+ 
+systemctl restart pvedaemon
+systemctl restart pveproxy
+
+*********************************************************************
+******TrueNAS cred*********
+GUI= root	
+passwd= admin
+
+*****************how to deploy a website on apache server*************
+mv soucre code on /var/www/html and delete index.html file
+
+#now go to
+ vim /etc/apache2/sites-available/ and define path 
+000-default.conf  default-ssl.conf
+
+define path from this file "000-default.conf" and restart apache
+
+
+############password ########
+MCTadmin@12#$
+
+
+
+---------------------
+
+To configure Postgres connections for all servers
+1 sudo nano /etc/postgresql/<version>/main/postgresql.conf
+2 #listen_addresses = 'localhost'
+3 #listen_addresses = '*'
+4 sudo nano /etc/postgresql/<version>/main/pg_hba.conf
+5 host    all             all              0.0.0.0/0                       scram-sha-256
+  host    all             all              ::/0                            scram-sha-256
+
+6 sudo systemctl restart postgresql
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

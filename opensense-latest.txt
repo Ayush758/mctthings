@@ -1,0 +1,13 @@
+login - installer
+password - opnsense
+
+ufs for VM
+zfs for Physical device
+
+
+then for assinging ip - 
+press 2 
+1 then n 
+2 then put ip 
+3 24
+4 put 192.168.100.1 gateway

@@ -1,0 +1,11 @@
+sudo apt update
+sudo apt install -y build-essential libpcre3 libpcre3-dev libssl-dev zlib1g zlib1g-dev
+
+wget https://openresty.org/download/openresty-1.21.4.1.tar.gz
+tar -xzvf openresty-1.21.4.1.tar.gz
+cd openresty-1.21.4.1
+./configure
+make
+sudo make install
+sudo /usr/local/openresty/bin/openresty
+ss -tunlp | grep 80

@@ -1,0 +1,13 @@
+proxmox with root
+192.168.100.51
+192.168.100.52
+192.168.100.53
+
+
+51 wala choose linux one 
+root
+MCTadmin@123456
+--------
+
+aayush 
+Maple@321
