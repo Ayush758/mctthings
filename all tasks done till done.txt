@@ -1,0 +1,31 @@
+hrms
+nms
+SIEM
+shuffle
+ired mail
+glpi
+moodle
+opendaylight
+build vyos
+itop
+gitlab cicd basic
+sdwan build
+vpn configure
+
+---------
+firewall
+router
+switches
+open zitty
+grafana
+snort
+app id
+dns configure
+ssl applied
+
+git 
+service file 
+siem script on 1 click 
+take backup of mysql db and scp on remote server.
+
+

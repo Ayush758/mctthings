@@ -1,0 +1,24 @@
+nms 
+ip - 192.168.100.15
+pass - admin
+--------------------
+HHRMS GUI - 
+http://192.168.100.56/  
+192.168.100.56
+admin@124
+
+mukesh tyagi sir task 
+-----------------------------
+proxmox server GUI 
+https://192.168.100.51:8006/
+Maple@321
+
+----------------
+gitlab root 
+username - root
+password - Newton@123456
+
+-----------------------------
+52 ip root password
+root
+MCTadmin@12#$ 

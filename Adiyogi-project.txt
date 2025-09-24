@@ -1,0 +1,6 @@
+npm run dev -- --host 192.168.100.32 --port 5173
+4:57
+pm2 start "npm" --name my-dev-server -- run dev -- --host 192.168.100.32 --port 5173
+4:58
+pm2 save
+pm2 startup

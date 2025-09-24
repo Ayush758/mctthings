@@ -1,0 +1,38 @@
+1st task -----
+
+1 https://john.soban.ski/install-opendaylight-ubuntu-lts-22-04.html
+2 install karaf 0.8.4 it will work 
+3 then after doing ./bin/karaf
+do - 
+a - ./bin/karaf clean
+
+feature:install odl-l2switch-switch-ui 
+or
+#feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
+	
+b - feature:install odl-restconf-all odl-l2switch-switch odl-mdsal-all features-dlux features-dluxapps
+c-  /home/opendaylight/karaf-0.8.4/bin/start
+
+https://stackoverflow.com/questions/32926705/opendaylight-dlux-login-unable-to-login
+
+run it on server - 
+sudo  mn --controller=remote,ip=192.168.100.233 --topo=linear,3 --switch ovsk,protocols=OpenFlow13
+
+if needed - sudo mn -c then do sudo  mn --controller=remote,ip=192.168.100.233 --topo=linear,3 --switch ovsk,protocols=OpenFlow13 then do reload at topology 
+
+------
+bgpd -v
+sudo apt install openngppd
+frr --version 
+
+=----------------------------------------
+
+2nd task ---
+https://www.youtube.com/watch?v=O4BU14qbTag&ab_channel=IvanHadrian
+code used - https://github.com/moodle/moodle?tab=readme-ov-file
+
+http://192.168.100.237/moodle/my/
+username - admin
+pass - Admin@123
+
+mysql - admin and admin 

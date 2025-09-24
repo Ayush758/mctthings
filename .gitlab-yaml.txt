@@ -1,0 +1,68 @@
+stages:
+  - building_image
+  - creating_containers
+
+building_image:
+  stage: building_image
+  script:
+    - docker build -f Dockerfile -t mctnms:latest .
+    # - docker build -f Dockerfile.db -t postgres:latest .  # Uncomment if needed
+  # No 'needs' required here, so removed it
+
+creating_containers:
+  stage: creating_containers
+  script:
+    - docker-compose up -d  
+----------------------
+
+stages: 
+  - building_image
+  - creating_containers
+
+building_image:
+  stage: building_image
+  script:
+    # Generate a unique image tag using the commit SHA (or you can use timestamp instead)
+    - IMAGE_TAG="mctnms:${CI_COMMIT_SHA}"  # Dynamically use commit SHA for versioning
+    # Alternatively, use timestamp for versioning (uncomment to use)
+    # - IMAGE_TAG="mctnms:$(date +%Y%m%d%H%M%S)"  # Use a timestamp instead of commit SHA
+    
+    # Build the Docker image with the dynamically generated tag
+    - docker build -f Dockerfile -t $IMAGE_TAG .
+    # - docker build -f Dockerfile.db -t postgres:latest .  # Uncomment if needed
+    
+    # Echo the image tag for confirmation
+    - echo "Built Docker image with tag: $IMAGE_TAG"
+
+creating_containers:
+  stage: creating_containers
+  script:
+    # Ensure you use the same image tag from the building_image job
+    - IMAGE_TAG="mctnms:${CI_COMMIT_SHA}"  # Use the same tag as in the build stage
+    # Alternatively, use timestamp for versioning (uncomment to use)
+    # - IMAGE_TAG="mctnms:$(date +%Y%m%d%H%M%S)"  # Use a timestamp instead of commit SHA
+    
+    # Run the container using the dynamically generated image tag
+    - docker-compose up -d
+    - echo "Running container with image tag: $IMAGE_TAG"
+---------------------------------
+
+3rd way 
+
+stages:
+  - building_image
+  - creating_containers
+
+building_image:
+  stage: building_image
+  script:
+    - IMAGE_TAG="mctnms:${CI_PIPELINE_ID}"
+    - docker build -f Dockerfile -t $IMAGE_TAG .
+    - echo "Built Docker image with tag: $IMAGE_TAG"
+
+creating_containers:
+  stage: creating_containers
+  script:
+    - IMAGE_TAG="mctnms:${CI_PIPELINE_ID}"
+    - docker-compose up -d
+    - echo "Running container with image tag: $IMAGE_TAG"

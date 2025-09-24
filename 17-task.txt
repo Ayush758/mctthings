@@ -1,0 +1,52 @@
+1 Started all the scripts for starting the VM's
+--------
+
+2 krishna hrms task via CLI 
+https://192.168.100.51:8006/
+go on to HRMS-testing and then go on to /var/www/html/hrms
+run nohup php artisan serve --host=192.168.100.12 --port=8000 > /dev/null 2>&1 &
+this command.
+
+------------
+3 created a vm snapshot name nmsDashsnapshot in 51 FOR AASHISH - 
+--------------------------------------------
+4 started a task given by Nirbhay to deploy open stack firewall  on 51 ip machine 
+
+take a VM and then put iso of openstack free bsd 
+a- pkg update
+b- pkg install nano
+c- nano /etc/ssh/sshd_config/
+do yes in Permitrootlogin instead of no 
+d- service sshd restart 
+e- passwd root 
+admin
+f pkg install git 
+g- cd /usr/tools
+h - pkg install cmake
+i make update 	
+j - create screen - screen -S build then do make dvd
+k - while running command do cntrl+a+d to run it on background , to get inside of running screen - screen -r and we can do screen -ls
+ if u got any version conflict then install it manually and lock it pkg lock 1.19 (https://mirror.nl.leaseweb.net/opnsense/FreeBSD%3A14%3Aamd64/24.7/latest/All/)
+
+192.168.100.221
+login - root 
+password - admin
+
+https://blog.leaseweb.com/2011/10/03/the-leaseweb-mirrors/
+-------------------------------------------------------
+
+5 for aashish -started script via command - ./kc.sh start-dev in 187 VM ip in 51 machine name IDAM 
+http://192.168.100.187:8080/
+-------------------------------------------
+
+6 https://192.168.100.52:8006
+name of VM- D-DOJO
+
+id - root
+pass - admin@123
+ran the sript in location - /root/django-DefectDojo
+sh dc-up.sh 	
+
+--------------------------------------
+
+7

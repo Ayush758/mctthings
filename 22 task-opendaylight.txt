@@ -1,0 +1,110 @@
+https://networklessons.com/cisco/ccna-routing-switching-icnd2-200-105/introduction-to-sdn-opendaylight
+
+https://lf-opendaylight.atlassian.net/wiki/spaces/ODL/pages/12523134/
+OpenDaylight+Controller+Installation?src=contextnavpagetreemode#:~:text=Download%20and%20extract%20the%20OpenDaylight,JDK%20can%20be%20download%20here.&text=The%20source%20code%20of%20the,in%20a%20directory%20called%20opendaylight.
+
+https://www.youtube.com/watch?v=qtFNfOJc8zM
+
+
+1st task -----
+
+ https://john.soban.ski/install-opendaylight-ubuntu-lts-22-04.html
+
+1 https://nexus.opendaylight.org/content/repositories/opendaylight.release/org/opendaylight/integration/karaf/
+
+(do wget and then zip file )
+
+now to install read this blog - https://john.soban.ski/install-opendaylight-ubuntu-lts-22-04.html
+
+2 install karaf 0.8.4 it will work 
+3 then do sudo ./bin/karaf
+it will open a shell inside that run feature wali commands which is step b.
+(sudo ./bin/karaf clean)
+
+feature:install odl-l2switch-switch-ui 
+or
+#feature:install odl-restconf odl-l2switch-switch odl-mdsal-apidocs odl-dlux-core
+	
+b - feature:install odl-restconf-all odl-l2switch-switch odl-mdsal-all features-dlux features-dluxapps
+c-  /home/opendaylight/karaf-0.8.4/bin/start
+
+https://stackoverflow.com/questions/32926705/opendaylight-dlux-login-unable-to-login
+
+run it on server - for adding switch
+sudo  mn --controller=remote,ip=192.168.100.233 --topo=linear,3 --switch ovsk,protocols=OpenFlow13
+
+----
+after installing frr - https://docs.frrouting.org/projects/dev-guide/en/latest/building-frr-for-ubuntu2204.html
+
+1 sudo systemctl status frr
+2 sudo vtysh -c "show ip bgp summary"
+3 sudo vtysh -c "show ip ospf neighbor"
+4 sudo vtysh
+
+http://192.168.100.233:8181/index.html#/yangvisualizer/index
+---------------------------------------------------------------------
+
+
+What Happens When You Run This Command:
+Mininet will create a virtual network with a linear topology of 3 hosts, where each host is connected to an OVS switch.
+The switches will use OpenFlow 1.3 to communicate with the remote SDN controller at 192.168.100.233.
+The remote controller can manage and control the flow tables of the switches using OpenFlow.
+
+if needed sudo mn -c then do 
+sudo  mn --controller=remote,ip=192.168.100.233 --topo=linear,3 --switch ovsk,protocols=OpenFlow13 
+then do reload at topology 
+now inside minnet shell - 
+1 nodes
+2 h1 ping h2
+3 net
+
+to delete all the switches - 
+sudo mn -c
+
+--------------
+(((Create Bridge:
+
+bash
+
+sudo ovs-vsctl add-br br0
+Set Controller:
+
+bash
+
+sudo ovs-vsctl set-controller br0 tcp:192.168.100.233:6653
+Verify OVS Bridge and Controller Configuration:
+
+bash
+
+sudo ovs-vsctl show
+This should resolve the issue and allow your Open vSwitch to connect to the OpenDaylight controller. 
+
+1 sudo ovs-vsctl add-br br0
+2 sudo ovs-vsctl set-controller br0 tcp:192.168.100.233:6653
+3 sudo ovs-vsctl show   )))
+
+add another bridge 
+1 sudo ovs-vsctl add-br br1
+2 sudo ovs-vsctl set-controller br1 tcp:192.168.100.233:6653
+3 sudo ovs-vsctl show  
+
+ sudo apt-get install openvswitch-switch
+ sudo ovs-vsctl list-ports br0
+ ip link show
+
+------
+bgpd -v
+sudo apt install openngppd
+frr --version 
+
+=----------------------------------------
+
+2nd task ---
+https://www.youtube.com/watch?v=O4BU14qbTag&ab_channel=IvanHadrian
+code used - https://github.com/moodle/moodle?tab=readme-ov-file
+
+http://192.168.100.237/moodle/my/
+username - admin
+pass - Admin@123
+
+mysql - admin and admin 

@@ -1,0 +1,65 @@
+1 sudo tar -czvf mctsm.tar.gz mctsm
+
+
+2 tar -xzvf mctsm.tar.gz
+
+
+ vim Dockerfile
+   43  docker build -t img1 .
+   44  vim Dockerfile
+   45  docker build -t img1 .
+   46  vim Dockerfile
+   47  cd
+   48  ping 192.168.100.68
+   49  cd /var/www/html/mctsm/
+   50  ls
+   51  cd conf/production/
+   52  ls
+   53  rm -rf ./*
+   54  cd
+   55  systemctl reload apache2.service
+   56  apt install php8.1-zip
+   57  ls
+   58  cd /etc/apache2/sites-available/
+   59  ls
+   60  vi 000-default.conf
+   61  systemctl reload apache2.service
+   62  apachectl -t
+   63  vi 000-default.conf
+   64  systemctl reload apache2.service
+   65  apachectl -t
+   66  vi 000-default.conf
+   67  systemctl reload apache2.service
+   68  cd /etc/php/
+   69  ls
+   70  cd 8.1/
+   71  ls
+   72  cd apache2/
+   73  ls
+   74  vi php.ini
+   75  systemctl reload apache2.service
+   76  cd
+   77  ls
+   78  cat itop-install.sh
+   79  ls
+   80  cd /home/docker/
+   81  ls
+   82  cat itop-isntall.sh
+   83  history
+
+apt install php8.1-curl php8.1-gd php8.1-xml
+
+# Install gd, mysqli, and soap
+apt-get install -y \
+    php8.1-gd \
+    php8.1-mysqli \
+    php8.1-soap
+
+apt install graphviz
+apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev
+
+
