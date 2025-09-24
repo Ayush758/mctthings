@@ -1,0 +1,167 @@
+df -hT
+lsblk 
+
+1 sudo fdisk /dev/sdb
+press n (new partiontion create krta h )
+press p (primary part bnta)
+enter 
+enter
+enter
+press p = to check partition
+w to save configuration 
+--------------
+
+2 sudo partprobe /dev/sdb
+3 sudo pvcreate /dev/sdb1
+4 sudo vgdisplay
+5 sudo vgextend ubuntu-vg /dev/sdb1
+6 sudo lvdisplay
+7 sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+moodle@moodle-server:~$ sudo fdisk /dev/sdb
+[sudo] password for moodle:
+
+Welcome to fdisk (util-linux 2.37.2).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+Device does not contain a recognized partition table.
+Created a new DOS disklabel with disk identifier 0x3e120ea5.
+
+Command (m for help): n
+Partition type
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended (container for logical partitions)
+Select (default p): p
+Partition number (1-4, default 1):
+First sector (2048-209715199, default 2048):
+Last sector, +/-sectors or +/-size{K,M,G,T,P} (2048-209715199, default 209715199):
+
+Created a new partition 1 of type 'Linux' and of size 100 GiB.
+
+Command (m for help): p
+Disk /dev/sdb: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: QEMU HARDDISK
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x3e120ea5
+
+Device     Boot Start       End   Sectors  Size Id Type
+/dev/sdb1        2048 209715199 209713152  100G 83 Linux
+
+Command (m for help): t
+Selected partition 1
+Hex code or alias (type L to list all): 8e
+Changed type of partition 'Linux' to 'Linux LVM'.
+
+Command (m for help): p
+Disk /dev/sdb: 100 GiB, 107374182400 bytes, 209715200 sectors
+Disk model: QEMU HARDDISK
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0x3e120ea5
+
+Device     Boot Start       End   Sectors  Size Id Type
+/dev/sdb1        2048 209715199 209713152  100G 8e Linux LVM
+
+Command (m for help): w
+The partition table has been altered.
+Calling ioctl() to re-read partition table.
+Syncing disks.
+
+moodle@moodle-server:~$ sudo partprobe /dev/sdb
+moodle@moodle-server:~$ sudo pvcreate /dev/sdb1
+  Physical volume "/dev/sdb1" successfully created.
+moodle@moodle-server:~$ sudo vgdisplay
+  --- Volume group ---
+  VG Name               ubuntu-vg
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  2
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                1
+  Open LV               1
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <48.00 GiB
+  PE Size               4.00 MiB
+  Total PE              12287
+  Alloc PE / Size       12287 / <48.00 GiB
+  Free  PE / Size       0 / 0
+  VG UUID               DtsF7D-Zfc8-X2HZ-dUBH-Np9s-HK8f-Ey4ZX1
+
+moodle@moodle-server:~$ sudo vgextend ubuntu-vg /dev/sdb1
+  Volume group "ubuntu-vg" successfully extended
+moodle@moodle-server:~$ sudo vgextend ubuntu-vg /dev/sdb1
+moodle@moodle-server:~$ sudo lvdisplay
+  --- Logical volume ---
+  LV Path                /dev/ubuntu-vg/ubuntu-lv
+  LV Name                ubuntu-lv
+  VG Name                ubuntu-vg
+  LV UUID                ALTgAk-b8Hu-xGPF-oQ1k-h3c6-zXxT-vqjozD
+  LV Write Access        read/write
+  LV Creation host, time ubuntu-server, 2024-10-22 09:24:50 +0000
+  LV Status              available
+  # open                 1
+  LV Size                <48.00 GiB
+  Current LE             12287
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     256
+  Block device           253:0
+
+moodle@moodle-server:~$ sudo lvextend -l +100%FREE -r /dev/ubuntu-vg/ubuntu-lv
+  Size of logical volume ubuntu-vg/ubuntu-lv changed from <48.00 GiB (12287 extents) to 147.99 GiB (37886 extents).
+  Logical volume ubuntu-vg/ubuntu-lv successfully resized.
+resize2fs 1.46.5 (30-Dec-2021)
+Filesystem at /dev/mapper/ubuntu--vg-ubuntu--lv is mounted on /; on-line resizing required
+old_desc_blocks = 6, new_desc_blocks = 19
+The filesystem on /dev/mapper/ubuntu--vg-ubuntu--lv is now 38795264 (4k) blocks long.
+
+moodle@moodle-server:~$ lsblk
+NAME                      MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0                       7:0    0  63.7M  1 loop /snap/core20/2434
+loop1                       7:1    0  63.4M  1 loop /snap/core20/1974
+loop2                       7:2    0    87M  1 loop /snap/lxd/29351
+loop3                       7:3    0  89.4M  1 loop /snap/lxd/31333
+loop4                       7:4    0 161.1M  1 loop /snap/microk8s/7398
+loop5                       7:5    0 161.1M  1 loop /snap/microk8s/7441
+loop6                       7:6    0  38.8M  1 loop /snap/snapd/21759
+loop7                       7:7    0  44.3M  1 loop /snap/snapd/23258
+sda                         8:0    0    50G  0 disk
+├─sda1                      8:1    0     1M  0 part
+├─sda2                      8:2    0     2G  0 part /boot
+└─sda3                      8:3    0    48G  0 part
+  └─ubuntu--vg-ubuntu--lv 253:0    0   148G  0 lvm  /
+sdb                         8:16   0   100G  0 disk
+└─sdb1                      8:17   0   100G  0 part
+  └─ubuntu--vg-ubuntu--lv 253:0    0   148G  0 lvm  /
+sr0                        11:0    1     2G  0 rom
+moodle@moodle-server:~$ df -hT
+Filesystem                        Type   Size  Used Avail Use% Mounted on
+tmpfs                             tmpfs  392M  1.3M  390M   1% /run
+/dev/mapper/ubuntu--vg-ubuntu--lv ext4   146G   25G  115G  18% /
+tmpfs                             tmpfs  2.0G     0  2.0G   0% /dev/shm
+tmpfs                             tmpfs  5.0M     0  5.0M   0% /run/lock
+/dev/sda2                         ext4   2.0G  242M  1.6G  14% /boot
+tmpfs                             tmpfs  392M  4.0K  392M   1% /run/user/1000
+shm                               tmpfs   64M     0   64M   0% /var/snap/microk8s/common/run/containerd/io.containerd.grpc.v1.cri/sandboxes/858fd2ef1332165e2568adaef38e229614ee833144a427bf106fae9ed5bb350d/shm
+shm                               tmpfs   64M     0   64M   0% /var/snap/microk8s/common/run/containerd/io.containerd.grpc.v1.cri/sandboxes/d63a30448fb60072d9a51dd3e963f7b09638a30722012440d67fd86e2d200ea4/shm
+shm                               tmpfs   64M     0   64M   0% /var/snap/microk8s/common/run/containerd/io.containerd.grpc.v1.cri/sandboxes/e1597e4f7fe766dd653cbe7c33acfe5ee46f16721d9c170aaa5c98ba121a0416/shm

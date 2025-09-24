@@ -1,0 +1,62 @@
+version: '3.8'
+
+services:
+  mctnms-web:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Build from the Dockerfile in the current directory
+    container_name: mctnms_web
+    restart: always
+    ports:
+      - "80:8980"
+    volumes:
+      - ./mctnms_logs/_logs:/opennms/target/opennms-32.0.2/logs
+      - ./mctnms_logs/_share:/opennms/target/opennms-32.0.2/share
+    networks:
+      - mctnms-net
+    depends_on:
+      - mctnms-db
+
+  mctnms-db:
+    build:
+      context: .
+      dockerfile: Dockerfile.db  # Build from the Dockerfile.db in the current directory
+    container_name: mctnms_db
+    restart: always
+    environment:
+      - POSTGRES_HOST="mctnms-db"
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - mctnms_db_data:/var/lib/postgresql/data
+    networks:
+      - mctnms-net
+
+networks:
+  mctnms-net:
+    driver: bridge
+
+volumes:
+  mctnms_db_data: {}
+-------------------------------------------
+
+
+
+
+
+stages:
+  - building_image
+  - creating_containers
+
+building_image:
+  stage: building_image
+  script:
+    # - docker build -f Dockerfile -t mctnms:latest . 
+    - docker build -f Dockerfile.db -t postgres:latest .
+  
+  needs:
+    - building_image
+
+creating_containers:
+  stage: creating_containers
+  script:
+    - docker-compose up -d

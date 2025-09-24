@@ -1,0 +1,17 @@
+siem 
+kdmc 
+nms
+firewall
+server
+switches
+service 
+glpi project management - 
+HRMS
+HELPdesk - SURAT
+HEADCOUNT - GOA
+MAPLE ONE 
+router
+application control
+SOAR
+UEBA - USER ENTITY BEHVIOUR ANTITY
+FIREWALL- NHPC

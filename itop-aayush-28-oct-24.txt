@@ -1,0 +1,133 @@
+Installation
+Step - 1: Update System and Install Mysql server and client
+apt update
+apt list --upgradable
+apt upgrade
+apt-get update
+apt-get install mysql-server mysql-client
+
+Step - 2:
+
+mysql -u root -p
+**Enter the password
+
+Step - 3: Enter the following in the mysql console:
+
+CREATE DATABASE itop CHARACTER SET UTF8 COLLATE UTF8_BIN;
+CREATE USER 'itop'@'%' IDENTIFIED BY 'Admin@123';
+GRANT ALL PRIVILEGES ON itop.* TO 'itop'@'%';
+FLUSH PRIVILEGES;
+quit;
+
+Step - 4: Installing Apache on Ubuntu Linux with PHP
+
+apt-get update
+sudo apt-get install apache2 php-mysql libapache2-mod-php mysql-server
+service apache2 restart
+
+apt-get install php-mysql php-mcrypt php-ldap php-soap php-json
+apt-get install php-mysql php-ldap php-soap php-json
+
+(if php-mcrypt throws an error, then run the below command otherwise ignore it)
+
+apt-get install php-mbstring
+
+Step - 5: update database and edit some configuration in php.ini file
+
+apt install locate
+updated
+locate php.ini
+vi /etc/php/7.4/apache2/php.ini
+
+
+Configuration File: 
+
+file_uploads = On
+max_execution_time = 300
+memory_limit = 256M
+post_max_size = 32M
+max_input_time = 60
+max_input_vars = 4440
+date.timezone = Asia/Kolkata
+
+Step - 6: Restart and check the apache service
+
+service apache2 restart
+service apache2 status
+
+Step - 7: Installing iTOP on Ubuntu Linux
+
+apt-get install unzip software-properties-common
+cd /tmp
+wget https://sourceforge.net/projects/itop/files/latest/download
+unzip download
+
+Step - 8: The extracted directory will be named as web, now execute the following commands:
+
+mkdir -p /var/www/html/mctsm
+mv /tmp/web/* /var/www/html/mctsm/
+cd /var/www/html/mctsm
+#mkdir conf data env-production env-production-build log
+chown www-data:www-data /var/www/html/mctsm/* -R
+
+sudo apt install curl php-gd php-xml php-curl
+sudo apt-get install php-zip
+
+Step - 9: Now Open your ip in the browser with /mctsm and do the further installation in the UI
+
+link - <your_ip>/mctsm
+
+Step - 10: Configuration of database:
+Server Name - localhost
+Login - itop
+password - Admin@123
+
+(Press enter after the entering these credentials)
+
+Use existing database
+
+Step - 11: Next, Installing for Production instance, Next 
+
+Step - 12: Check -> Service Management for Enterprise
+
+Step - 13: Select ITIl compliance Tickets Management with all three check boxes within the same.
+
+Step - 14: Select ITIL Change Management, Select all after the next,
+
+Step - 15: Install 
+
+Your Installation is now complete
+
+Create Service Management	
+
+1.	Create Organization
+Go to Data administration -> Organizations -> Create New
+
+2.	Create User
+Go to Configuration Management -> Contacts -> Select Persons -> Create User
+
+3.	Create Team, Add Member to Team
+Go to Configuration Management -> Contacts -> Select Team -> Create New Team
+
+4.	Create Service contract 
+Go to Service Management-> Customer Contracts -> Create Contract
+
+5.	Create Service Family 
+Go to Service Management-> Service Family-> Create Service Family
+
+6.	Create Service
+Go to Service Management-> Services -> Create New Services
+
+7.	Create Service Subcategory in Service Management
+8.	Create a Service Delivery Model in Service Management
+9.	Add Support Member to delivery Model
+10.	Create ITOP User for software login
+Go to Administration -> User Profiles -> Create Users
+11.	Add Permission Profile to iTop user
+12.	Email Notification Setup
+13.	Create Trigger
+14.	Create action
+15.	Dashboard Design
+16.	User Preference.
+
+

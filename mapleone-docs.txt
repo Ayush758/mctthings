@@ -1,0 +1,49 @@
+
+maple one running on 79 and 94 pe wazuh
+
+sudo -u postgres psql
+CREATE USER admin WITH PASSWORD 'admin';
+CREATE DATABASE mapleone OWNER admin;
+[4:17 PM] GRANT ALL PRIVILEGES ON DATABASE mapleone TO admin;
+sudo nano /etc/postgresql/*/main/pg_hba.conf
+host    all             all             0.0.0.0/0               md5
+sudo nano /etc/postgresql/*/main/postgresql.conf
+listen_addresses = '*'
+sudo systemctl restart postgresql
+======================
+
+dependencies 
+
+1 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+2 sudo apt install -y nodejs
+3 node --version
+4 npm --version
+
+now db postgres = 
+
+# 1. Install required packages
+sudo apt update
+sudo apt install -y wget gnupg lsb-release ca-certificates
+
+# 2. Import PostgreSQL GPG key
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+
+# 3. Add the PostgreSQL APT repository
+echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" \
+  | sudo tee /etc/apt/sources.list.d/pgdg.list
+
+# 4. Update package lists again
+sudo apt update
+
+# 5. Install PostgreSQL 14 (latest patch version will be 14.18)
+sudo apt install -y postgresql-14
+
+# 6. Verify version
+psql --version
+
+7 sudo -u postgres psql
+CREATE USER admin WITH PASSWORD 'admin';
+CREATE DATABASE mapleone OWNER admin;
+GRANT ALL PRIVILEGES ON DATABASE mapleone TO admin;
+
+

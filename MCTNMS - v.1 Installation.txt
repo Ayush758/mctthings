@@ -1,0 +1,89 @@
+Debian/Ubuntu OpenNMS installation Steps - 32.0.0:
+
+** Install Chrony in Ubuntu - (For Syncing time with IST)
+
+timedatectl set-timezone Asia/Kolkata  ##(this command will set the time-zone of Asia/Kolkata)
+apt install chrony
+chronyc sources  ##(this command will sync the time of ubuntu system with IST)
+reboot
+
+** Installation of Postgresql in Ubuntu-
+
+sudo apt -y install postgresql
+
+cd /  ##(changing the directory to / for creation of database purposes)
+
+** Creation of opennms database user and password: 
+
+sudo -u postgres createuser -P opennms admin
+
+** Creation of empty database and setting ownership permission:
+
+sudo -u postgres createdb -O opennms opennms
+
+** Set a password for Postgresql superuser:
+(Note: Please enter your own password in 'admin')
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'admin';"
+
+**Adding the repository
+
+cd /etc/apt/sources.list.d/
+vi opennms.list  ##(Add the following lines below in the opennms.list file)
+
+deb https://debian.opennms.org opennms-32 main
+deb-src https://debian.opennms.org opennms-32 main
+
+** Adding the GPG keys
+
+wget -O - https://debian.opennms.org/OPENNMS-GPG-KEY | apt-key add -
+
+** Update the repositories
+
+apt update
+
+sudo apt -y install opennms  ##(this will install the opennms to its 31 version)
+
+sudo apt -y install r-recommended   ##(for forecasting data in opennms, install R)
+
+** sudo -u opennms vi /usr/share/opennms/etc/opennms-datasources.xml
+
+<jdbc-data-source name="opennms"
+                    database-name="opennms" 
+                    class-name="org.postgresql.Driver"
+                    url="jdbc:postgresql://localhost:5432/opennms"
+                    user-name="opennms" 
+                    password="admin" /> 
+
+<jdbc-data-source name="opennms-admin"
+                    database-name="template1"
+                    class-name="org.postgresql.Driver"
+                    url="jdbc:postgresql://localhost:5432/template1"
+                    user-name="postgres" 
+                    password="admin" /> 
+
+**note set postgres and opennms database password which was set earlier during opennms and postgres installation & configuration. 
+
+** Detect Java environment and persist in /usr/share/opennms/etc/java.conf
+
+sudo /usr/share/opennms/bin/runjava -s
+
+** Initialize the database and detect system libraries persisted in /opt/opennms/etc/libraries.properties
+
+sudo /usr/share/opennms/bin/install -dis
+
+** Hold the repo for no further update
+
+sudo apt-mark hold libopennms-java
+sudo apt-mark libopennmsdeps-java
+sudo apt-mark opennms-common
+sudo apt-mark opennms-db
+
+** Reload Daemon, Enable opennms, restart opennms
+
+systemctl daemon-reload
+systemctl enable --now opennms
+systemctl restart opennms
+
+
+
+

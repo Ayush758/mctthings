@@ -1,0 +1,11 @@
+go on to the terminal 
+
+sudo ip addr add 100.0.55.55/24 dev ens33
+
+https://100.0.55.55 on gui 
+
+on cli = systemctl status wazuh-manager
+
+systemctl status indexer.service
+systemctl status wazuh-dashboard.service
+

@@ -1,0 +1,24 @@
+domain - mcts.in
+
+mail domain - maplecloudtechnologies.com
+
+mysql k through installtion
+
+
+
+https://192.168.100.88/mail/?_task=login&_err=session
+
+192.168.100.47 
+ubuntu
+admin
+
+
+* - Username: postmaster@mail.devray.in
+* - Password: Admin@123
+
+
+-----------
+- Username: postmaster@mcts.in
+* - Password: Admin@123
+
+Admin@123

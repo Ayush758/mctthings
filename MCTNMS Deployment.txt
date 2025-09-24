@@ -1,0 +1,60 @@
+
+
+MCTNMS Deployment Commands
+
+apt install git
+apt install perl
+apt install openjdk-11-jdk
+sudo apt install postgresql
+
+Go to  cd /etc/postgresql/14/main/pg_hba.conf (change dns 0.0.0.0/0)
+
+Go to cd /etc/postgresql/14/main/postgresql.conf listen Address '*'
+
+  620  systemctl enable postgresql
+  621  systemctl start postgresql
+  622  systemctl status postgresql
+
+
+ 624  echo "deb [signed-by=/usr/share/keyrings/opennms.gpg] https://debian.opennces.list.d/opennms.list
+
+
+create user in postgresql 
+sudo -u postgres createuser -P opennms   #(password "admin" )
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD 'admin';"
+
+Go to opennms/target 
+
+chmod -R 777 /opennms/opennms/target/opennms-32.0.2 (optional if permission required)
+
+
+  # Create User As opennms
+
+  sudo useradd -r -s /bin/false opennms
+
+  sudo chown -R mctnms:mctnms /mctnms
+  sudo chown -R opennms:opennms /opennms
+
+ ./target/opennms-32.0.2/bin/runjava -s
+  ./target/opennms-32.0.2/bin/install -dis
+   ./target/opennms-32.0.2/bin/opennms -vt start
+
+    ./target/opennms-32.0.2/bin/opennms -vt stop
+--------------------------
+	
+
+/root/target/target/opennms-32.0.2/etc
+
+----
+inside db container 
+
+1 psql -U opennms
+2 \l
+3\du
+
+
+
+
+
+
+

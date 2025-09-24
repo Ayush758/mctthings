@@ -1,0 +1,27 @@
+domain he devray.in 
+
+install i red mail  
+
+89 pe chalana 
+
+mail domiain i hav to put devray.in
+
+hostname - devray-mail
+
+mariadb choose 
+
+
+chooose sogo and select all 
+-------------------------------------
+sudo timedatectl set-timezone Asia/Kolkata
+set time also for kolkaata india 
+
+
+mail.devray.in - laptop ka hostname h
+devray.in while installation 
+
+--------------
+1 wget https://github.com/iredmail/iRedMail/archive/refs/tags/1.7.1.tar.gz
+2 tar -xzvf 1.7.1.tar.gz
+3 sudo hostnamectl set-hostname (......)
+4 
