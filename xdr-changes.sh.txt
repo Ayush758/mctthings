@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Base directory where your new files are located
+SRC_BASE="/root/xdr/MCTXDR"
+
+# Destination base path of Wazuh Dashboard
+DEST_BASE="/usr/share/wazuh-dashboard"
+
+# Function to copy files locally
+copy_file() {
+    local src_file=$1
+    local dst_file=$2
+
+    echo "Copying $src_file to $dst_file"
+    cp -f "$src_file" "$dst_file"
+}
+
+# 1. Login page background
+copy_file "$SRC_BASE/wazuh_dashboard_login_background.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+
+# 2. Login page logo
+copy_file "$SRC_BASE/wazuh_dashboard_login_mark.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+
+# 3. Landing page logo (light theme)
+copy_file "$SRC_BASE/logo.svg" "$DEST_BASE/plugins/wazuh/public/assets/images/themes/light/"
+
+# 4. Landing page logo (dark theme)
+copy_file "$SRC_BASE/logo.svg" "$DEST_BASE/plugins/wazuh/public/assets/images/themes/dark/"
+
+# 5. Title image on loading page
+copy_file "$SRC_BASE/opensearch_mark_on_light.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+copy_file "$SRC_BASE/opensearch_mark_on_dark.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+
+# 6. Home page logo
+copy_file "$SRC_BASE/opensearch_mark_on_light.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+
+# 7. Help menu documentation logos
+copy_file "$SRC_BASE/icon_light.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+copy_file "$SRC_BASE/icon_dark.svg" "$DEST_BASE/src/core/server/core_app/assets/logos/"
+
+# 8. Logo on reports page
+copy_file "$SRC_BASE/logo_reports.png" "$DEST_BASE/plugins/wazuh/public/assets/images/"
+
+# 9. Reports header/footer and other JS/JSX files (if you have replacements)
+# copy_file "$SRC_BASE/constants.js" "$DEST_BASE/plugins/wazuh/common/"
+# copy_file "$SRC_BASE/wazuh-reporting.js" "$DEST_BASE/plugins/wazuh/server/controllers/"
+
+# 10. Favicons
+copy_file "$SRC_BASE/favicon.ico" "$DEST_BASE/src/core/server/core_app/assets/"
+
+# 11 & 12. Title bar and URL changes (if you have local copy)
+# copy_file "$SRC_BASE/opensearch_dashboards.yml" "/etc/wazuh-dashboard/"
