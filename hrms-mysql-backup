@@ -1,0 +1,53 @@
+sudo crontab -e 
+
+1 #*/1 * * * * mysqldump -u root hrms > /root/backup/hrm_backup_$(date +\%d-\%m-\%Y_\%H-\%M).sql
+for midnight 12:05 am 
+
+5 0 * * * mysqldump -u root hrms > /root/backup/hrm_backup_$(date +\%d-\%m-\%Y_\%H-\%M).sql
+
+2 nano ~/.my.cnf
+3 [client]
+user=root
+password=admin
+4 chmod 600 ~/.my.cnf
+
+-------------
+
+test your backup.sql
+
+mysql -u root -p
+CREATE DATABASE test_hrms;
+EXIT;
+
+mysql -u root -p test_hrms < hrms_backup_03-02-2025_11-01.sql
+
+-------------------
+
+now scp from slave to master 
+1 sudo crontab -e
+2 * * * * * scp -r /root/backup/hrm_backup* root@192.168.100.91:/root/backup/
+---------------
+----------------
+in 200 vm 
+6 0 * * * scp -r /root/backup/hrms_backup* root@192.168.100.92:/etc/opt/hrms-backup
+5 0 * * * mysqldump -u root hrms > /etc/opt/hrms-backup/hrms_backup_$(date +\%d-\%m-\%Y_\%H-\%M).sql
+7 0 * * * find /etc/opt/hrms-backup/ -name '*.sql' -type f -mtime +2 -exec rm {} \;
+
+------------for passwordless 
+1 in master server - ssh-keygen -t rsa
+2 in remote server - ssh-copy-id root@192.168.100.92
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+chmod 600 ~/.ssh/id_rsa
+chmod 644 ~/.ssh/id_rsa.pub
+
+3 in crontab - 
+in 92 
+5 0 * * * mysqldump -u root ayush  > /root/backup/hrms_backup_$(date +\%d-\%m-\%Y_\%H-\%M).sql
+* * * * * scp -r /root/backup/* root@192.168.100.91:/root/backup/
+
+
+sudo systemctl start cron
+sudo systemctl enable cron
+
+
