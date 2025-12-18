@@ -1,0 +1,11 @@
+
+# m h  dom mon dow   command
+* * * * * php /var/www/html/hrms/artisan schedule:run >> /var/log/laravel-scheduler.log 2>&1
+
+# old backup files (2 days ago file) delete them
+#7 0 * * * find /opt/hrms_backup/ -name '*.sql' -type f -mtime +2 -exec rm {} \;
+
+# Take everyday Mysql dump
+5 0 * * * mysqldump -u root hms > /opt/hrms_backup/hms_backup_$(date +\%d-\%m-\%Y_\%H-\%M).sql
+
+
