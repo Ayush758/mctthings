@@ -1,0 +1,77 @@
+#!/bin/bash
+
+ACCESS_TOKEN="glpat-CozXiL--lhYx_teU5UwE9W86MQp1OjMH.01.0w0y8i6a3"
+GITLAB_URL="https://gitlab.mcts.in"
+
+# exact group path as shown in GitLab
+GROUP_FULL_PATH="mct-projects"
+
+# <<< your required backup location >>>
+CLONE_DIR="/c/gitlab-backup/5jan-25"
+
+mkdir -p "$CLONE_DIR"
+cd "$CLONE_DIR" || exit 1
+
+echo "🔎 Resolving group id for $GROUP_FULL_PATH ..."
+
+# get group ID
+GROUP_ID=$(curl -s \
+ -H "PRIVATE-TOKEN: $ACCESS_TOKEN" \
+ "$GITLAB_URL/api/v4/groups/$GROUP_FULL_PATH" | jq -r '.id')
+
+if [[ -z "$GROUP_ID" || "$GROUP_ID" == "null" ]]; then
+  echo "❌ group not found – check GROUP_FULL_PATH"
+  exit 1
+fi
+
+echo "✅ Group ID = $GROUP_ID"
+
+clone_group() {
+  local GID=$1
+
+  # ------- clone all projects -------
+  page=1
+  while true; do
+
+    projects=$(curl -s \
+      -H "PRIVATE-TOKEN: $ACCESS_TOKEN" \
+      "$GITLAB_URL/api/v4/groups/$GID/projects?include_subgroups=true&per_page=100&page=$page")
+
+    count=$(echo "$projects" | jq 'length')
+    [[ $count -eq 0 ]] && break
+
+    echo "$projects" | jq -c '.[]' | while read -r p; do
+      path=$(echo "$p" | jq -r '.path_with_namespace')
+      repo=$(echo "$p" | jq -r '.ssh_url_to_repo')
+
+      target="$CLONE_DIR/$path"
+
+      mkdir -p "$(dirname "$target")"
+
+      if [[ -d "$target/.git" ]]; then
+        echo "⚠️  already exists: $path (skipping)"
+      else
+        echo "🔄 cloning $path"
+        git clone "$repo" "$target"
+      fi
+    done
+
+    [[ $count -lt 100 ]] && break
+    page=$((page+1))
+  done
+
+  # ---------- recurse subgroups ----------
+  subgroups=$(curl -s \
+    -H "PRIVATE-TOKEN: $ACCESS_TOKEN" \
+    "$GITLAB_URL/api/v4/groups/$GID/subgroups")
+
+  echo "$subgroups" | jq -r '.[].id' | while read -r SG; do
+    [[ -z "$SG" ]] && continue
+    clone_group "$SG"
+  done
+}
+
+clone_group "$GROUP_ID"
+
+echo "🎉 DONE — full GitLab namespace backup created at:"
+echo "➡️  $CLONE_DIR"
