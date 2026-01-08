@@ -1,0 +1,33 @@
+services:
+  web:
+    image: hrms:2
+    container_name: hrms
+    ports:
+      - "8000:80"
+    networks:
+      - app-network
+    environment:
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: hrms_test
+      DB_USERNAME: root
+      DB_PASSWORD: secret
+
+  db:
+    image: mysql:5.7
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: hrms_test
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
