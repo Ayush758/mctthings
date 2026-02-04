@@ -1,0 +1,5 @@
+To push all the codes in one go with all the brances just create project in gitlab with emty not even readme file 
+
+1 git remote set-url origin url
+2 for b in $(git branch -r | grep -v 'HEAD' | sed 's|origin/||'); do git checkout -B "$b" "origin/$b" && echo "Now on branch: $(git branch --show-current)"; done
+3 git push origin --all --force
