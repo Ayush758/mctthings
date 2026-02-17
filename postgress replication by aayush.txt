@@ -1,0 +1,16 @@
+1 to check replication type in psql 
+
+SELECT client_addr, state, sync_state
+FROM pg_stat_replication;
+
+
+2 to check which db is primary or tempry
+
+sudo -u postgres psql -c "SELECT pg_is_in_recovery();" 
+
+3 to check replication where it is happening inside the db
+
+
+SELECT client_addr, state, sync_state, write_lag, flush_lag, replay_lag
+FROM pg_stat_replication;
+
